@@ -1,0 +1,33 @@
+[
+    {
+        "firstName": "Bitch",
+        "lastName": "Man",
+        "email": "JihadHamad@gmail.com",
+        "DOB": "01/02/2003",
+        "joinDate": "2024-11-15",
+        "gender": "male",
+        "userID": 211657,
+        "hours": 0,
+        "history": [],
+        "username": "Bitch",
+        "password": "Man"
+    },
+    {
+        "firstName": "john",
+        "lastName": "doe",
+        "email": "johndoe12@gmail.com",
+        "DOB": "09/17/2002",
+        "joinDate": "2024-11-19",
+        "gender": "male",
+        "userID": 269170,
+        "hours": 12,
+        "history": [
+            "church",
+            "mosque",
+            "grapefest"
+        ],
+        "username": "johndoe12",
+        "password": "monkey",
+        "usertype": "volunteer"
+    }
+]
