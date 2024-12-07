@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #393E46;
+        }
+        header {
+            /*Main Header*/
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: lightgray;
+            border: 1px solid black;
+            font-size: 24px;
+            font-weight: bold;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            box-sizing: border-box;
+            color: black;
+        }
+        header a {
+            /*header affects user search, event search*/
+            font-size: 18px;
+            color: black;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #98FB98;
+            border: 1px solid LightGray;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .user-search, .event-search {
+            margin: 0 10px;
+        }
+        .header-center {
+            flex-grow: 1;
+            text-align: center;
+        }
+        .logout-box {
+            margin-left: 10px;
+            padding: 10px;
+            background-color: #98FB98;
+            color: black;
+            border-radius: 5px;
+            font-size: 18px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 60px;
+            margin: 50px;
+        }
+        .left-side {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+        }
+        .box-container {
+            position: relative;
+            margin-bottom: 30px;
+            margin-top: 0;
+        }
+        .box {
+            /*left side boxes*/
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #f9f9f9;
+            min-height: 250px;
+            border-radius: 10px;
+            position: relative;
+        }
+        .date {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+        .profile-picture {
+            width: 60px;
+            height: 60px;
+            background-color: #ddd;
+            border-radius: 50%;
+            float: left;
+            margin-right: 15px;
+        }
+        .profile-info .role {
+            font-weight: bold;
+            margin-top: 5px;
+            clear: both;
+        }
+        .profile-info .college {
+            font-weight: bold;
+            color: #555;
+        }
+        .profile-info .name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .profile-info .username {
+            color: #666;
+            font-size: 14px;
+        }
+        .stats {
+            /*background box for both profile boxes, yours and person you click on*/
+            margin-top: 20px;
+            background-color: #98FB98;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .stats-item {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .right-side {
+            width: 50%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+        .calendar-box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #f1f1f1;
+            min-height: 300px;
+            border-radius: 10px;
+            flex-grow: 1;
+            position: relative;
+        }
+        .calendar-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .user-search-box {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+        }
+        .user-search-input {
+            padding: 12px 20px;
+            width: 283px;
+            font-size: 16px; 
+            border: 2px solid #ccc;
+            border-radius: 15px; 
+            background-color: #f1f1f1;
+            box-sizing: border-box;
+        }
+        .user-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(6, auto);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .user-item {
+            /*background boxes for the search result*/
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .user-circle {
+            width: 40px;
+            height: 40px; 
+            background-color: #ddd;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .user-details {
+            font-size: 14px;
+        }
+        .user-details .name {
+            font-weight: bold;
+        }
+        .user-details .username {
+            color: #666;
+        }
+        .user-details .role {
+            font-style: italic;
+            color: #555;
+        }
+        .events-box {
+            margin-top: 20px;
+        }
+        .event-item {
+            margin-bottom: 15px;
+        }
+        .event-item label {
+            display: flex;
+            align-items: center;
+        }
+        .event-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="usersearch.html" class="user-search">🔍 User Search</a>
+        <div class="header-center">CommUnity</div>
+        <a href="eventsearch.html" class="event-search">🔍 Event Search</a>
+        <a href="direction.html" class="logout-box">Logout</a>
+    </header>
+
+    <div class="container">
+        <div class="left-side">
+            <div class="box-container">
+                <div class="box">
+                    <div class="date">Member Since: --</div>
+                    <div class="profile-picture"></div>
+                    <div class="profile-info">
+                        <div class="name">Your Profile</div>
+                        <div class="username">@--</div>
+                        <div class="role">Volunteer</div>
+                    </div>
+                    <div class="stats">
+                        <div class="stats-item"><strong>Total Hours:</strong> --</div>
+                        <div class="stats-item"><strong>Opportunities Worked:</strong> --</div>
+                        <div class="stats-item"><strong>History:</strong> --</div>
+                    </div>
+                </div>
+            </div>
+
+    <div class="box-container">
+        <div class="box">
+            <div class="date">Member Since: --</div>
+            <div class="profile-picture"></div>
+            <div class="profile-info">
+                <div class="name">Clicked Profile</div>
+                <div class="username">@--</div>
+                <div class="role">Volunteer</div>
+            </div>
+            <div class="stats">
+                <div class="stats-item"><strong>Total Hours:</strong> --</div>
+                <div class="stats-item"><strong>Opportunities Worked:</strong> --</div>
+                <div class="stats-item"><strong>History:</strong> --</div>
+            </div>
+        </div>
+    </div>
+        </div>
+
+        <div class="right-side">
+            <div class="calendar-box">
+                <div class="calendar-title">Results for: John Doe</div>
+                <div class="user-search-box">
+                    <input type="text" class="user-search-input" placeholder="Search for a user">
+                </div>
+                <div class="user-list">
+                    <div class="user-item">
+                        <div class="user-circle"></div>
+                        <div class="user-details">
+                            <div class="name">John Doe</div>
+                            <div class="username">@johndoe13</div>
+                            <div class="role">Volunteer</div>
+                        </div>
+                    </div>
+                    <div class="user-item">
+                        <div class="user-circle"></div>
+                        <div class="user-details">
+                            <div class="name">Jane Smith</div>
+                            <div class="username">@janesmith24</div>
+                            <div class="role">Volunteer</div>
+                        </div>
+                    </div>
+                    <div class="user-item">
+                        <div class="user-circle"></div>
+                        <div class="user-details">
+                            <div class="name">Alice Green</div>
+                            <div class="username">@alicegreen33</div>
+                            <div class="role">Volunteer</div>
+                        </div>
+                    </div>
+                    <div class="user-item">
+                        <div class="user-circle"></div>
+                        <div class="user-details">
+                            <div class="name">Bob Brown</div>
+                            <div class="username">@bobbrown41</div>
+                            <div class="role">Volunteer</div>
+                        </div>
+                    </div>
+                    <div class="user-item">
+                        <div class="user-circle"></div>
+                        <div class="user-details">
+                            <div class="name">Emily White</div>
+                            <div class="username">@emilywhite19</div>
+                            <div class="role">Volunteer</div>
+                        </div>
+                    </div>
+                    <div class="user-item">
+                        <div class="user-circle"></div>
+                        <div class="user-details">
+                            <div class="name">Mark Johnson</div>
+                            <div class="username">@markjohnson56</div>
+                            <div class="role">Volunteer</div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</body>
+</html>
