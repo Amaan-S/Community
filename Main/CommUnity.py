@@ -5,6 +5,9 @@ import sys
 from flask_session import Session
 from datetime import datetime
 import random
+from flask_cors import CORS
+CORS(app)
+
 
 # Dynamically adjust Python's search path to include the parent directory
 current_dir = os.path.dirname(os.path.abspath(__file__))  # Path to Main
