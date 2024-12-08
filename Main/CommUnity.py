@@ -48,7 +48,7 @@ def signup_page():
     return render_template('signup.html')
 
 # Route to handle signup form submission
-@app.route('/signup.html', methods=['POST'])
+@app.route('/signup', methods=['POST'])
 def process_signup():
     role = request.form.get("role")
     username = request.form.get("username")
