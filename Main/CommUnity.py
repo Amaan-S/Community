@@ -43,7 +43,7 @@ def save_users(users):
         print(f"Error saving users: {e}")
 
 # Route to serve the signup page
-@app.route('/signup.html', methods=['GET'])
+@app.route('/signup', methods=['GET'])
 def signup_page():
     return render_template('signup.html')
 
