@@ -6,7 +6,7 @@ from flask_session import Session
 from datetime import datetime
 import random
 from flask_cors import CORS
-CORS(app)
+
 
 
 # Dynamically adjust Python's search path to include the parent directory
@@ -18,6 +18,7 @@ sys.path.append(project_root)                            # Add project root to m
 file_path = os.path.join(project_root, 'users.json')
 
 app = Flask(__name__, template_folder='../Directories/templates')
+CORS(app)
 
 # Configure Flask-Session
 app.secret_key = "your_secret_key"
