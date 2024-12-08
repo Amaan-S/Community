@@ -18,7 +18,8 @@ sys.path.append(project_root)                            # Add project root to m
 file_path = os.path.join(project_root, 'users.json')
 
 app = Flask(__name__, template_folder='../Directories/templates')
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "https://communitytaajj.my"}})        #ensure that communitytaajj.my (domain) can interact with flask backend
+
 
 # Configure Flask-Session
 app.secret_key = "your_secret_key"
