@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Homepage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #424242, #616161);
+
+            /*flex implementation*/
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            /*Main Header*/
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: LightGray;
+            border: 1px solid black;
+            font-size: 24px;
+            font-weight: bold;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            box-sizing: border-box;
+            color: black;
+        }
+        header a {
+            /*user search & event search boxes*/
+            font-size: 18px;
+            color: black;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #98FB98;
+            border: 1px solid LightGray;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .user-search, .event-search {
+            margin: 0 10px;
+        }
+        .header-center {
+            flex-grow: 1;
+            text-align: center;
+        }
+        .logout-box {
+            margin-left: 10px;
+            padding: 10px;
+            background-color: #98FB98;
+            color: black;
+            border-radius: 5px;
+            font-size: 18px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 60px;
+            margin: 50px;
+        }
+        .left-side {
+            width: 45%;
+
+            /*flex optimization*/
+            flex: 1 1 45%;
+            margin: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        .box-container {
+            /*Profile Card*/
+            position: relative;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            border: 1px solid black;
+            background-color: lightgray;
+            margin-top: 0;
+        }
+        .box {
+            /*My Events box*/
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: lightgray;
+            border: 1px solid black;
+            min-height: 250px;
+            border-radius: 10px;
+            position: relative;
+        }
+        .date {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 14px;
+            color: black;
+        }
+        .profile-picture {
+            width: 60px;
+            height: 60px;
+            background-color: rgb(184, 176, 141);
+            border-radius: 50%;
+            float: left;
+            margin-right: 15px;
+        }
+        .profile-info .role {
+            font-weight: bold;
+            margin-top: 5px;
+            clear: both;
+        }
+        .profile-info .college {
+            font-weight: bold;
+            color: #555;
+        }
+        .profile-info .name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .profile-info .username {
+            color: #666;
+            font-size: 14px;
+        }
+        .stats {
+            /* Background box for the profile card info */
+            margin-top: 20px;
+            background-color: #98FB98;
+            border: 1px solid black;
+            padding: 10px;
+            border-radius: 8px;
+            width: 80%;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .stats-item {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .right-side {
+            width: 50%;
+            text-align: center;
+
+            /*flex optimization*/
+            display: flex;
+            flex-direction: column;
+        }
+        .calendar-box {
+            /*Main Calendar Box*/
+            padding: 20px;
+            background-color: lightgray;
+            border: 1px solid black;
+            min-height: 300px;
+            border-radius: 10px;
+            flex-grow: 1;
+        }
+        .calendar-title {
+            
+            font-weight: bold;
+            margin-bottom: -12px;
+            margin-top: -20px;
+            font-family: Brush Script MT;
+
+            /*flex optimization*/
+            flex-wrap: wrap;
+            font-size: 4rem;
+        }
+        .calendar-title-text{
+            margin: 0 10px; /*Adding padding to center the title*/
+            font-size: 4rem;
+        }
+        .events-box {
+            margin-top: 20px;
+        }
+        .event-background {
+            /*my events subevent background*/
+            background-color: #98FB98;
+            border: 1px solid black;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        .event-item {
+            margin-bottom: 10px;
+        }
+        .event-item label {
+            display: flex;
+            align-items: center;
+        }
+        .event-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .signup-btn {
+            /*Signup button box*/
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #98FB98;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column; /* Stack elements vertically on smaller screens */
+                margin: 20px;
+            }
+        
+            .left-side, .right-side {
+                flex: 1 1 100%; /* Full width for smaller screens */
+            }
+        
+            .calendar-title {
+                font-size: 50px; /* Adjust font size for smaller screens */
+            }
+        }
+
+        /*Start of style portion of the the calendar in calendar.html*/
+
+        .calendar-container {
+            width: 96.5%;
+            height: auto;
+            padding: 12px;
+            background-color: #F89880;
+            border: 1px solid #FFFFFF;
+            border-radius: 20px;
+            justify-content: space-between;
+
+            /*flex optimization*/
+            display: flex;
+            text-align: center;
+            flex-grow: 1;
+            align-items: center;
+        
+        }
+        
+        .calendar-header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-family: Garamond, serif;
+        }
+        
+        table {
+            width: 100%;
+            height: 100;
+            margin: 0 auto;
+            text-align: center;
+            border-collapse: collapse;
+            border-radius: 10px;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+        
+        th{
+            padding: 2em;
+            border: 0.5px solid #F8F6F0;
+            width: calc(100% / 7);
+            height: calc(100% / 6);
+        }
+        td {
+            padding: 2em;
+            border: 0.5px solid #F8F6F0;
+            width: calc(100% / 7);
+            height: calc(100% / 6);
+            transition: background-color 0.2s ease;
+            background-color: LightGray
+        }
+
+        td:hover {
+            background-color: #5dade2;  /*color that the box will change to upon hovering*/
+            cursor: pointer;
+        }        
+
+        td.empty-cell:hover {
+            background-color: #7f8c8d; /* Change to a different color on hover */
+            cursor: pointer;
+        }
+
+        th:first-child {
+            border-top-left-radius: 10px; /* Round top-left corner */
+        }
+        
+        th:last-child {
+            border-top-right-radius: 10px; /* Round top-right corner */
+        }
+        
+        tr:last-child td:first-child {
+            border-bottom-left-radius: 10px; /* Round bottom-left corner */
+        }
+        
+        tr:last-child td:last-child {
+            border-bottom-right-radius: 10px; /* Round bottom-right corner */
+        }
+        
+        th {
+            background-color: #98FB98;
+        }
+        
+        tr {
+            background-color: LightGray;
+            transition: background-color 0.2s ease;
+        }
+        tr:hover{
+            background-color: #d3d3d3;  /*color that the box will change to upon hovering*/
+            cursor: pointer;
+        }
+
+        /*Button style addition to change between the calendar months*/
+      
+        #LookBack, #LookAhead {
+            /* Apply arrow-button styles to buttons */
+            color: #C2FFE9;
+            padding: 10px 16px;
+            border-radius: 20px;
+            transition: all .3s ease;    /* Smooth transition for all properties */
+            font-weight: bold;
+            cursor: pointer;
+            align-items: center;
+            font-size: 14px;
+            border: none;
+            position: relative;
+            background-color: #98FB98;    /* Initial pale green background color */
+            color: black;
+            vertical-align: middle;
+        }
+        
+        #LookBack:hover, #LookAhead:hover {
+            /* Styles for hover effect */
+            background-color: #F778A1;        /* Change background on hover */
+            color: white;                /* Change text color to white on hover */
+        }
+        
+        
+        #LookBack::before, #LookAhead::after {
+            /* Use ::before and ::after pseudo-elements for arrows */
+            content: "";
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;    /* Adjust arrow size here */
+            border-bottom: 5px solid transparent;    /* Adjust arrow size here */
+            border-left: 7px solid #C2FFE9;    /* Arrow color */
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);    /* Center vertically */
+            border-left-color: black;
+            transition: all .3s ease;        /* Smooth transition for arrow */
+        }
+        
+        #LookBack::before {
+            /* Left arrow */
+            left: 5px;    /* Adjust position */
+            transform: translateY(-50%) rotate(180deg);    /* Rotate for left arrow */
+        }
+        
+        #LookAhead::after {
+            /* Right arrow */
+            right: 5px;    /* Adjust position */
+        }
+        
+        #LookBack:hover::before {
+            /* Hover effect for left arrow */
+            transform: translateY(-50%) translateX(-4px) rotate(180deg);    /* Add translateX */
+            border-left-color: white;        /* Change arrow color to white on hover */
+        }
+        
+        #LookAhead:hover::after {
+            /* Hover effect for right arrow */
+            transform: translateY(-50%) translateX(4px);    /* Add translateX */
+            border-left-color: white;        /* Change arrow color to white on hover */
+        }
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <a href="usersearch.html" class="user-search">🔍 User Search</a>
+        <div class="header-center">CommUnity</div>
+        <a href="eventsearch.html" class="event-search">🔍 Event Search</a>
+        <a href="signup.html" class="logout-box">Logout</a>
+    </header>
+
+    <div class="container">
+        <div class="left-side">
+            <div class="box-container">
+                <div class="box">
+                    <div class="date">Member Since: 10.15.24</div>
+                    <div class="profile-picture"></div>
+                    <div class="profile-info">
+                        <div class="name">{{ user.first_name }} {{ user.last_name}}</div>
+                        <div class="username">@{{ user.username }}</div>
+                        <div class="role">Volunteer</div>
+                        <div class="college">ZipCode: {{ user.zipcode }}</div>
+                    </div>
+                    <div class="stats">
+                        <div class="stats-item"><strong>Total Hours:</strong> {{ user.hours }}</div>
+                        <div class="stats-item"><strong>Opportunities Worked:</strong> {{ user.opportunities_worked }}</div>
+                        <div class="stats-item"><strong>History:</strong> {{ user.history }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                <button class="signup-btn">Signup</button>
+                <h3>My Events</h3>
+                <div class="events-box">
+                    {% for event in user.events %}
+                    <div class="event-background">
+                        <div class="event-item">
+                            <label>
+                                <input type="checkbox">
+                                {{ event.name }}: {{ event.time }}
+                            </label>
+                            <p>{{ event.volunteers_needed }} Volunteers still needed.</p>
+                            <p>{{ event.description }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="right-side">                    <!--Start of Calendar integration into the webpage-->
+            <div class="calendar-box">
+                <div class="calendar-title">
+                    <button id = "LookBack">
+                        Back
+                    </button>
+                    <span class="calendar-title-text">Events Calendar</span>
+                    <button id = "LookAhead">
+                        Next
+                    </button>
+                </div>
+                <div class="calendar-container">
+                    <div class="calendar-header" id="calendar-header"></div>
+                    <table id="calendar-table">
+                        <tr>
+                            <th>Sun</th><th>Mon</th><th>Tue</th>
+                            <th>Wed</th><th>Thu</th><th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Javascript code for the functionality of the calendar -->
+    <script>
+        //start of Javascript code
+    function Gen_myCalendar(){
+        // Get today's date (uses JavaScript date objects)
+        const today = new Date();
+
+        //Month Names
+        const monthNames = ["January", "February", "March",
+                            "April", "May", "June",
+                            "July", "August", "September",
+                            "October", "November", "December"];
+
+        // Get the current month and year and allow them to be changeable
+        let currentMonth = today.getMonth();
+        let currentYear = today.getFullYear();
+
+        function CalendarGen(month,year){
+            // Get the number of days in the current month and year
+            var daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            // Get the day of the week for the first day of the month
+            var firstDay = (new Date(year, month, 1)).getDay();
+
+            // Set the calendar title to the current month and year
+            document.querySelector('.calendar-title-text').textContent = `${monthNames[month]} ${year}`;
+            
+            // Clear previous calendar content to avoid accidentally appending the data
+            const calendarTable = document.getElementById('calendar-table');
+            calendarTable.innerHTML = '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>';
+            
+            // Create the calendar table
+            let date = 1;
+                for (let i = 0; i < 6; i++) { // 6 rows (max needed for a month view)
+                    let row = document.createElement('tr');
+
+                    // Create 7 columns (days of the week)
+                    for (let j = 0; j < 7; j++) {
+                        let cell = document.createElement('td');
+                        if (i === 0 && j < firstDay) {
+                            // Empty cells before the first day of the month
+                            cell.innerHTML = "";                  
+                            cell.classList.add('empty-cell');       //Add an empty cell to the calendar
+                        } else if (date > daysInMonth) {
+                            // Empty cells after the last day of the month
+                            cell.innerHTML = "";
+                            cell.classList.add('empty-cell');       //Add an empty cell to the calendar
+                        } else {
+                            // Fill with dates
+                            cell.innerHTML = date;
+                            date++;
+                        }
+                        row.appendChild(cell);
+                    }
+
+                    // Append the row to the calendar table
+                    document.getElementById('calendar-table').appendChild(row);
+                }
+        }
+
+        CalendarGen(currentMonth,currentYear);              //initial generation of calendar that is the current month and year
+    
+        document.getElementById('LookBack').addEventListener('click', () => {   //upon clicking LookBack button 
+            currentMonth--;     //decrease the month
+            if(currentMonth < 0){           //check to make sure that decreasing the month is nonnegative
+                currentMonth = 11;  //if negative, set the month to december
+                currentYear--;          //decease the year
+            }
+            CalendarGen(currentMonth, currentYear);         //regenerate the updated calendar
+        });
+
+        document.getElementById('LookAhead').addEventListener('click', () => {         //upon clicking nextMonth button
+            currentMonth++;      //increase the month
+            if(currentMonth > 11){           //check to make sure that increasing the month does not exceed 11
+                currentMonth = 0;  //if it does, set the month to January
+                currentYear++;          //increase the year
+            }
+            CalendarGen(currentMonth, currentYear);         //regenerate the updated calendar
+        });
+    }
+
+    // Call the function to generate the calendar when the page loads
+    window.onload = Gen_myCalendar;
+        
+    </script>
+</body>
+</html>

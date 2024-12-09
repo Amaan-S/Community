@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #393E46;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: lightgray;
+            border: 1px solid black;
+            font-size: 24px;
+            font-weight: bold;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            box-sizing: border-box;
+            color: black;
+        }
+        header a {
+            font-size: 18px;
+            color: black;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #98FB98;
+            border: 1px solid LightGray;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .user-search, .event-search {
+            margin: 0 10px;
+        }
+        .header-center {
+            flex-grow: 1;
+            text-align: center;
+        }
+        .logout-box {
+            margin-left: 10px;
+            padding: 10px;
+            background-color: #98FB98;
+            color: black;
+            border-radius: 5px;
+            font-size: 18px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 60px;
+            margin: 50px;
+        }
+        .left-side {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+        }
+        .box-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #f9f9f9;
+            min-height: 250px;
+            border-radius: 10px;
+            position: relative;
+        }
+        .date {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+        .signup-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 100px;
+            height: 40px;
+            background-color: #98FB98;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+        }
+        .event-info .role {
+            font-weight: bold;
+            margin-top: 5px;
+            clear: both;
+        }
+        .event-info .category {
+            font-weight: bold;
+            color: #555;
+        }
+        .event-info .name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .event-info .location {
+            color: #666;
+            font-size: 14px;
+        }
+        .stats {
+            margin-top: 20px;
+            background-color: #98FB98;
+            padding: 10px;
+            border-radius: 8px;
+            word-wrap: break-word;
+            overflow: hidden;
+        }
+        .stats-item {
+            font-size: 14px;
+            margin-bottom: 5px;
+            word-wrap: break-word;
+        }
+        .right-side {
+            width: 50%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+        .calendar-box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #f1f1f1;
+            min-height: 300px;
+            border-radius: 10px;
+            flex-grow: 1;
+            position: relative;
+        }
+        .calendar-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .event-search-box {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+        }
+        .event-search-input {
+            padding: 12px 20px;
+            width: 283px;
+            font-size: 16px; 
+            border: 2px solid #ccc;
+            border-radius: 15px; 
+            background-color: #f1f1f1;
+            box-sizing: border-box;
+        }
+        .event-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(6, auto);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .event-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .event-circle {
+            width: 40px;
+            height: 40px; 
+            background-color: #ddd;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .event-details {
+            font-size: 14px;
+        }
+        .event-details .name {
+            font-weight: bold;
+        }
+        .event-details .location {
+            color: #666;
+        }
+        .event-details .category {
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="usersearch.html" class="user-search">🔍 User Search</a>
+        <div class="header-center">CommUnity: Event Search</div>
+        <a href="direction.html" class="logout-box">Logout</a>
+    </header>
+
+    <div class="container">
+        <div class="left-side">
+            <div class="box-container">
+                <div class="box">
+                    <div class="signup-btn">Signup</div>
+                    <div class="event-info">
+                        <div class="name">Event Title</div>
+                    </div>
+                    <div class="stats">
+                        <div class="stats-item"><strong>Location:</strong> --</div>
+                    </div>
+                    <div class="stats">
+                        <div class="stats-item"><strong>Category:</strong> --</div>
+                    </div>
+                    <div class="stats">
+                        <div class="stats-item"><strong>Date:</strong> --</div>
+                    </div>
+                    <div class="stats">
+                        <div class="stats-item"><strong>Time:</strong> --</div>
+                    </div>
+                    <div class="stats">
+                        <div class="stats-item"><strong>Description:</strong> --</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-side">
+            <div class="calendar-box">
+                <div class="calendar-title">Results for: --</div>
+                <div class="event-search-box">
+                    <input type="text" class="event-search-input" placeholder="Search for an event">
+                </div>
+                <div class="event-list">
+                    <div class="event-item">
+                        <div class="event-details">
+                            <div class="name">Event Name</div>
+                            <div class="location">Address</div>
+                            <div class="category">Category</div>
+                        </div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-details">
+                            <div class="name">Event Name</div>
+                            <div class="location">Address</div>
+                            <div class="category">Category</div>
+                        </div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-details">
+                            <div class="name">Event Name</div>
+                            <div class="location">Address</div>
+                            <div class="category">Category</div>
+                        </div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-details">
+                            <div class="name">Event Name</div>
+                            <div class="location">Address</div>
+                            <div class="category">Category</div>
+                        </div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-details">
+                            <div class="name">Event Name</div>
+                            <div class="location">Address</div>
+                            <div class="category">Category</div>
+                        </div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-details">
+                            <div class="name">Event Name</div>
+                            <div class="location">Address</div>
+                            <div class="category">Category</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
