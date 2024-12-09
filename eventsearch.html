@@ -277,7 +277,7 @@
                     <div class="event-item">
                         <div class="event-details">
                             <div class="name">Park Cleanup</div>
-                            <div class="location">903 Bear Creak Road, Keller</div>
+                            <div class="location">903 Bear Creek Road, Keller</div>
                             <div class="category">Environmental</div>
                         </div>
                     </div>
@@ -300,8 +300,8 @@
         const eventItems = document.querySelectorAll(".event-item");
         const clickedEventBox = document.querySelector(".left-side .box");
         const searchInput = document.querySelector(".event-search-input");
+        const calendarTitle = document.querySelector(".calendar-title");
 
-        // Event data with detailed information
         const eventData = {
             "Community Cleanup": {
                 location: "123 Greenfield Road, Keller",
@@ -347,16 +347,12 @@
             }
         };
 
-        // Add click event listener to all event items
         eventItems.forEach((item) => {
             item.addEventListener("click", () => {
                 const eventName = item.querySelector(".name").textContent.trim();
 
-                // Check if the clicked event exists in the eventData object
                 if (eventData[eventName]) {
                     const eventInfo = eventData[eventName];
-
-                    // Update the event detail box on the left
                     clickedEventBox.querySelector(".event-info .name").textContent = eventName;
                     clickedEventBox.querySelectorAll(".stats-item")[0].innerHTML = `<strong>Location:</strong> ${eventInfo.location}`;
                     clickedEventBox.querySelectorAll(".stats-item")[1].innerHTML = `<strong>Category:</strong> ${eventInfo.category}`;
@@ -367,19 +363,18 @@
             });
         });
 
-        // Add search functionality
         searchInput.addEventListener("keydown", (e) => {
             if (e.key === "Enter") {
                 e.preventDefault();
-                const searchQuery = searchInput.value.trim().toLowerCase();
+                const searchQuery = searchInput.value.trim();
+
+                calendarTitle.textContent = searchQuery ? `Results for: ${searchQuery}` : "Results for: --";
 
                 eventItems.forEach((item) => {
                     const name = item.querySelector(".name").textContent.toLowerCase();
-                    item.style.display = name.includes(searchQuery) ? "flex" : "none";
+                    item.style.display = name.includes(searchQuery.toLowerCase()) ? "flex" : "none";
                 });
             }
         });
     });
 </script>
-
-
