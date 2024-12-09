@@ -12,7 +12,6 @@
             background-color: #393E46;
         }
         header {
-            /*Main Header*/
             display: flex;
             align-items: center;
             padding: 10px 20px;
@@ -27,7 +26,6 @@
             color: black;
         }
         header a {
-            /*header affects user search, event search*/
             font-size: 18px;
             color: black;
             text-decoration: none;
@@ -77,7 +75,6 @@
             margin-top: 0;
         }
         .box {
-            /*left side boxes*/
             border: 1px solid #ccc;
             padding: 20px;
             background-color: #f9f9f9;
@@ -105,10 +102,6 @@
             margin-top: 5px;
             clear: both;
         }
-        .profile-info .college {
-            font-weight: bold;
-            color: #555;
-        }
         .profile-info .name {
             font-size: 18px;
             font-weight: bold;
@@ -119,7 +112,6 @@
             font-size: 14px;
         }
         .stats {
-            /*background box for both profile boxes, yours and person you click on*/
             margin-top: 20px;
             background-color: #98FB98;
             padding: 10px;
@@ -171,7 +163,7 @@
             margin-top: 20px;
         }
         .user-item {
-            /*background boxes for the search result*/
+            cursor: pointer;
             display: flex;
             align-items: center;
             padding: 15px;
@@ -195,23 +187,6 @@
         }
         .user-details .username {
             color: #666;
-        }
-        .user-details .role {
-            font-style: italic;
-            color: #555;
-        }
-        .events-box {
-            margin-top: 20px;
-        }
-        .event-item {
-            margin-bottom: 15px;
-        }
-        .event-item label {
-            display: flex;
-            align-items: center;
-        }
-        .event-item input[type="checkbox"] {
-            margin-right: 10px;
         }
     </style>
 </head>
@@ -242,22 +217,22 @@
                 </div>
             </div>
 
-    <div class="box-container">
-        <div class="box">
-            <div class="date">Member Since: --</div>
-            <div class="profile-picture"></div>
-            <div class="profile-info">
-                <div class="name">Clicked Profile</div>
-                <div class="username">@--</div>
-                <div class="role">Volunteer</div>
+            <div class="box-container">
+                <div class="box">
+                    <div class="date">Member Since: --</div>
+                    <div class="profile-picture"></div>
+                    <div class="profile-info">
+                        <div class="name">Clicked Profile</div>
+                        <div class="username">@--</div>
+                        <div class="role">Volunteer</div>
+                    </div>
+                    <div class="stats">
+                        <div class="stats-item"><strong>Total Hours:</strong> --</div>
+                        <div class="stats-item"><strong>Opportunities Worked:</strong> --</div>
+                        <div class="stats-item"><strong>History:</strong> --</div>
+                    </div>
+                </div>
             </div>
-            <div class="stats">
-                <div class="stats-item"><strong>Total Hours:</strong> --</div>
-                <div class="stats-item"><strong>Opportunities Worked:</strong> --</div>
-                <div class="stats-item"><strong>History:</strong> --</div>
-            </div>
-        </div>
-    </div>
         </div>
 
         <div class="right-side">
@@ -286,39 +261,165 @@
                     <div class="user-item">
                         <div class="user-circle"></div>
                         <div class="user-details">
-                            <div class="name">Alice Green</div>
-                            <div class="username">@alicegreen33</div>
+                            <div class="name">Ethan Carter</div>
+                            <div class="username">@Ethancarter16</div>
                             <div class="role">Volunteer</div>
                         </div>
                     </div>
                     <div class="user-item">
                         <div class="user-circle"></div>
                         <div class="user-details">
-                            <div class="name">Bob Brown</div>
-                            <div class="username">@bobbrown41</div>
+                            <div class="name">Sophia bennett</div>
+                            <div class="username">@sophiabennet19</div>
                             <div class="role">Volunteer</div>
                         </div>
                     </div>
                     <div class="user-item">
                         <div class="user-circle"></div>
                         <div class="user-details">
-                            <div class="name">Emily White</div>
-                            <div class="username">@emilywhite19</div>
+                            <div class="name">Liam Mitchell</div>
+                            <div class="username">@Liammitchell12</div>
                             <div class="role">Volunteer</div>
                         </div>
                     </div>
                     <div class="user-item">
                         <div class="user-circle"></div>
                         <div class="user-details">
-                            <div class="name">Mark Johnson</div>
-                            <div class="username">@markjohnson56</div>
+                            <div class="name">Olivia Harris</div>
+                            <div class="username">@Oliviaharris123</div>
+                            <div class="role">Volunteer</div>
+                        </div>
+                    </div>
+                    <div class="user-item">
+                        <div class="user-circle"></div>
+                        <div class="user-details">
+                            <div class="name">Noah Anderson</div>
+                            <div class="username">@Noahanderson983</div>
+                            <div class="role">Volunteer</div>
+                        </div>
+                    </div>
+                    <div class="user-item">
+                        <div class="user-circle"></div>
+                        <div class="user-details">
+                            <div class="name">Emma Brooks</div>
+                            <div class="username">@Emmabrooks674</div>
+                            <div class="role">Volunteer</div>
+                        </div>
+                    </div>
+                    <div class="user-item">
+                        <div class="user-circle"></div>
+                        <div class="user-details">
+                            <div class="name">James Turner</div>
+                            <div class="username">@jamesturner87</div>
                             <div class="role">Volunteer</div>
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const userItems = document.querySelectorAll(".user-item");
+            const clickedProfile = document.querySelector(".box-container:nth-child(2) .box");
+            const searchInput = document.querySelector(".user-search-input");
+
+            const userData = {
+                "John Doe": {
+                    memberSince: "10.6.24",
+                    username: "@johndoe13",
+                    totalHours: "6",
+                    opportunitiesWorked: "3",
+                    history: "Grapefest, Church, State Fair"
+                },
+                "Jane Smith": {
+                    memberSince: "11.8.24",
+                    username: "@janesmith24",
+                    totalHours: "12",
+                    opportunitiesWorked: "8",
+                    history: "Animal Shelter, Library, Community Center, Soup Kitchen..."
+                },
+                "Ethan Carter": {
+                    memberSince: "10.9.24",
+                    username: "@ethancarter16",
+                    totalHours: "32",
+                    opportunitiesWorked: "16",
+                    history: "Animal Shelter, Soup Kitchen, Community Center, UNT Graduation..."
+                },
+                "Sophia Bennett": {
+                    memberSince: "12.6.24",
+                    username: "@sophiabennett19",
+                    totalHours: "4",
+                    opportunitiesWorked: "1",
+                    history: "Animal Shelter"
+                },
+                "Liam Mitchell": {
+                    memberSince: "10.15.24",
+                    username: "@liammitchell12",
+                    totalHours: "4",
+                    opportunitiesWorked: "2",
+                    history: ", Library, Soup Kitchen"
+                },
+                "Olivia Harris": {
+                    memberSince: "11.6.24",
+                    username: "@oliviharris123",
+                    totalHours: "7",
+                    opportunitiesWorked: "3",
+                    history: "Soup Kitchen, Church, Community Center"
+                },
+                "Noah Anderson": {
+                    memberSince: "11.24.24",
+                    username: "@noahanderson983",
+                    totalHours: "12",
+                    opportunitiesWorked: "5",
+                    history: "Animal Shelter, Library, Community Center, Church..."
+                },
+                "Emma Brooks": {
+                    memberSince: "12.2.24",
+                    username: "@emmabrooks674",
+                    totalHours: "3",
+                    opportunitiesWorked: "1",
+                    history: "Library"
+                },
+                "James Turner": {
+                    memberSince: "11.4.24",
+                    username: "@jamesturner87",
+                    totalHours: "7",
+                    opportunitiesWorked: "3",
+                    history: "Soup Kitchen, Church, Community Center"
+                }
+            };
+
+            userItems.forEach((item) => {
+                item.addEventListener("click", () => {
+                    const userName = item.querySelector(".name").textContent;
+
+                    if (userData[userName]) {
+                        const userInfo = userData[userName];
+
+                        clickedProfile.querySelector(".date").textContent = `Member Since: ${userInfo.memberSince}`;
+                        clickedProfile.querySelector(".profile-info .name").textContent = userName;
+                        clickedProfile.querySelector(".profile-info .username").textContent = userInfo.username;
+                        clickedProfile.querySelector(".stats-item:nth-child(1)").innerHTML = `<strong>Total Hours:</strong> ${userInfo.totalHours}`;
+                        clickedProfile.querySelector(".stats-item:nth-child(2)").innerHTML = `<strong>Opportunities Worked:</strong> ${userInfo.opportunitiesWorked}`;
+                        clickedProfile.querySelector(".stats-item:nth-child(3)").innerHTML = `<strong>History:</strong> ${userInfo.history}`;
+                    }
+                });
+            });
+
+            searchInput.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    const searchQuery = searchInput.value.trim().toLowerCase();
+
+                    userItems.forEach((item) => {
+                        const name = item.querySelector(".name").textContent.toLowerCase();
+                        item.style.display = name.includes(searchQuery) ? "flex" : "none";
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
