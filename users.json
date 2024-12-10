@@ -1,57 +1,5 @@
 [
     {
-        "firstName": "Bitch",
-        "lastName": "Man",
-        "email": "JihadHamad@gmail.com",
-        "DOB": "01/02/2003",
-        "joinDate": "2024-11-15",
-        "gender": "male",
-        "userID": 211657,
-        "hours": 0,
-        "history": [],
-        "username": "Bitch",
-        "password": "Man"
-    },
-    {
-        "role": "organizer",
-        "username": "jman",
-        "password": "jman",
-        "organization_name": "Jihad Company",
-        "email": "hamadjih9463@gmail.com",
-        "address": {
-            "street": "300 Laurel Lane",
-            "city": "Euless",
-            "state": "TX",
-            "zip_code": "76039"
-        }
-    },
-    {
-        "role": "volunteer",
-        "username": "jh1163",
-        "password": "4q3pzPSe8Jqvyyd",
-        "first_name": "Jihad",
-        "last_name": "Hamad",
-        "email": "hamadjih9463@gmail.com",
-        "gender": "male",
-        "dob": "2024-12-05",
-        "zipcode": "76039"
-    },
-    {
-        "role": "volunteer",
-        "username": "jjman",
-        "password": "jjman",
-        "first_name": "Jihad ",
-        "last_name": "Hamad",
-        "email": "hamadjih9463@gmail.com",
-        "gender": "male",
-        "dob": "",
-        "zipcode": "76039",
-        "hours": 0,
-        "opportunities_worked": 0,
-        "history": "",
-        "events": []
-    },
-    {
         "userType": 1,
         "userID": "512065",
         "username": "jcomp",
