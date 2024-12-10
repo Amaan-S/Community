@@ -412,36 +412,52 @@
                         <button>Edit Event</button>
                     </div>
                 </div>
-                <div class="form-container">
+                <form action="/add-event" method="post" class="form-container">
                     <label for="event-name">Event Name</label>
-                    <input type="text" id="event-name" class="input-field" placeholder="Enter event name">
-
+                    <input type="text" id="event-name" name="name" class="input-field" placeholder="Enter event name" required>
+            
                     <label for="volunteers-needed">Volunteers Needed</label>
-                    <input type="number" id="volunteers-needed" class="input-field" placeholder="Enter number of volunteers">
-
+                    <input type="number" id="volunteers-needed" name="vAmount" class="input-field" placeholder="Enter number of volunteers" required>
+            
                     <label for="start-time">Start Time</label>
-                    <input type="datetime-local" id="start-time" class="input-field">
-
+                    <input type="datetime-local" id="start-time" name="start_time" class="input-field" required>
+            
                     <label for="end-time">End Time</label>
-                    <input type="datetime-local" id="end-time" class="input-field">
-
+                    <input type="datetime-local" id="end-time" name="end_time" class="input-field" required>
+            
                     <label for="street">Street</label>
-                    <input type="text" id="street" class="input-field" placeholder="Enter street">
-
+                    <input type="text" id="street" name="street" class="input-field" placeholder="Enter street" required>
+            
                     <label for="city">City</label>
-                    <input type="text" id="city" class="input-field" placeholder="Enter city">
-
+                    <input type="text" id="city" name="city" class="input-field" placeholder="Enter city" required>
+            
                     <label for="state">State</label>
-                    <input type="text" id="state" class="input-field" placeholder="Enter state">
-
+                    <input type="text" id="state" name="state" class="input-field" placeholder="Enter state" required>
+            
                     <label for="zip-code">Zip Code</label>
-                    <input type="text" id="zip-code" class="input-field" placeholder="Enter zip code">
-
+                    <input type="text" id="zip-code" name="zip_code" class="input-field" placeholder="Enter zip code" required>
+            
+                    <label for="category">Category</label>
+                    <select id="category" name="category" class="input-field" required>
+                        <option value="Community Service">Community Service</option>
+                        <option value="Fairs & Events">Fairs & Events</option>
+                        <option value="Education & Mentorship">Education & Mentorship</option>
+                        <option value="Health & Wellness">Health & Wellness</option>
+                        <option value="Animal Welfare">Animal Welfare</option>
+                        <option value="Religious">Religious</option>
+                        <option value="Miscellaneous">Miscellaneous</option>
+                    </select>
+            
                     <label for="event-description">Event Description</label>
-                    <textarea id="event-description" class="textarea-field" placeholder="Enter event description"></textarea>
-                </div>
+                    <textarea id="event-description" name="description" class="textarea-field" placeholder="Enter event description" required></textarea>
+            
+                    <label for="hours-reward">Hours Reward</label>
+                    <input type="number" id="hours-reward" name="hoursReward" class="input-field" placeholder="Enter hours reward" required>
+            
+                    <button type="submit" class="submit-button">Add Event</button>
+                </form>
             </div>
-        </div>
+
 
         <!-- Events Calendar Section -->
         <div class="right-side">
