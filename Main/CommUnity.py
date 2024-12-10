@@ -47,7 +47,7 @@ def save_users(users):
     except Exception as e:
         print(f"Error saving users: {e}")
 
-@app.route('/index')
+@app.route('/index.html')
 def index():
     return render_template('index.html')
 
