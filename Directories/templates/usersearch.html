@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Search</title>
     <style>
+        /* Existing styles remain unchanged */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -202,17 +203,17 @@
         <div class="left-side">
             <div class="box-container">
                 <div class="box">
-                    <div class="date">Member Since: --</div>
+                    <div class="date">Member Since: {{ logged_in_user['joinDate'] }}</div>
                     <div class="profile-picture"></div>
                     <div class="profile-info">
-                        <div class="name">Your Profile</div>
-                        <div class="username">@--</div>
-                        <div class="role">Volunteer</div>
+                        <div class="name">{{ logged_in_user['username'] }}</div>
+                        <div class="username">@{{ logged_in_user['username'] }}</div>
+                        <div class="role">{{ "Volunteer" if logged_in_user['userType'] == 0 else "Organizer" }}</div>
                     </div>
                     <div class="stats">
-                        <div class="stats-item"><strong>Total Hours:</strong> --</div>
-                        <div class="stats-item"><strong>Opportunities Worked:</strong> --</div>
-                        <div class="stats-item"><strong>History:</strong> --</div>
+                        <div class="stats-item"><strong>Total Hours:</strong> {{ logged_in_user.get('hours', 0) }}</div>
+                        <div class="stats-item"><strong>Opportunities Worked:</strong> {{ len(logged_in_user.get('history', [])) }}</div>
+                        <div class="stats-item"><strong>History:</strong> {{ ", ".join(logged_in_user.get('history', [])) }}</div>
                     </div>
                 </div>
             </div>
@@ -237,189 +238,46 @@
 
         <div class="right-side">
             <div class="calendar-box">
-                <div class="calendar-title">Results for: John Doe</div>
+                <div class="calendar-title">Results for: {{ search_query if search_query else "No Search" }}</div>
                 <div class="user-search-box">
-                    <input type="text" class="user-search-input" placeholder="Search for a user">
+                    <form method="POST" action="/usersearch.html">
+                        <input type="text" name="username" class="user-search-input" placeholder="Search for a user">
+                    </form>
                 </div>
                 <div class="user-list">
-                    <div class="user-item">
+                    {% for user in similar_users %}
+                    <div class="user-item" onclick="selectUser('{{ user['username'] }}')">
                         <div class="user-circle"></div>
                         <div class="user-details">
-                            <div class="name">John Doe</div>
-                            <div class="username">@johndoe13</div>
-                            <div class="role">Volunteer</div>
+                            <div class="name">{{ user['username'] }}</div>
+                            <div class="username">@{{ user['username'] }}</div>
+                            <div class="role">{{ "Volunteer" if user['userType'] == 0 else "Organizer" }}</div>
                         </div>
                     </div>
-                    <div class="user-item">
-                        <div class="user-circle"></div>
-                        <div class="user-details">
-                            <div class="name">Jane Smith</div>
-                            <div class="username">@janesmith24</div>
-                            <div class="role">Volunteer</div>
-                        </div>
-                    </div>
-                    <div class="user-item">
-                        <div class="user-circle"></div>
-                        <div class="user-details">
-                            <div class="name">Ethan Carter</div>
-                            <div class="username">@Ethancarter16</div>
-                            <div class="role">Volunteer</div>
-                        </div>
-                    </div>
-                    <div class="user-item">
-                        <div class="user-circle"></div>
-                        <div class="user-details">
-                            <div class="name">Sophia bennett</div>
-                            <div class="username">@sophiabennet19</div>
-                            <div class="role">Volunteer</div>
-                        </div>
-                    </div>
-                    <div class="user-item">
-                        <div class="user-circle"></div>
-                        <div class="user-details">
-                            <div class="name">Liam Mitchell</div>
-                            <div class="username">@Liammitchell12</div>
-                            <div class="role">Volunteer</div>
-                        </div>
-                    </div>
-                    <div class="user-item">
-                        <div class="user-circle"></div>
-                        <div class="user-details">
-                            <div class="name">Olivia Harris</div>
-                            <div class="username">@Oliviaharris123</div>
-                            <div class="role">Volunteer</div>
-                        </div>
-                    </div>
-                    <div class="user-item">
-                        <div class="user-circle"></div>
-                        <div class="user-details">
-                            <div class="name">Noah Anderson</div>
-                            <div class="username">@Noahanderson983</div>
-                            <div class="role">Volunteer</div>
-                        </div>
-                    </div>
-                    <div class="user-item">
-                        <div class="user-circle"></div>
-                        <div class="user-details">
-                            <div class="name">Emma Brooks</div>
-                            <div class="username">@Emmabrooks674</div>
-                            <div class="role">Volunteer</div>
-                        </div>
-                    </div>
-                    <div class="user-item">
-                        <div class="user-circle"></div>
-                        <div class="user-details">
-                            <div class="name">James Turner</div>
-                            <div class="username">@jamesturner87</div>
-                            <div class="role">Volunteer</div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const userItems = document.querySelectorAll(".user-item");
-            const clickedProfile = document.querySelector(".box-container:nth-child(2) .box");
-            const searchInput = document.querySelector(".user-search-input");
+        function selectUser(username) {
+            fetch(`/api/get_user/${username}`)
+                .then(response => response.json())
+                .then(user => {
+                    const clickedProfile = document.querySelector(".box-container:nth-child(2) .box");
 
-            const userData = {
-                "John Doe": {
-                    memberSince: "10.6.24",
-                    username: "@johndoe13",
-                    totalHours: "6",
-                    opportunitiesWorked: "3",
-                    history: "Grapefest, Church, State Fair"
-                },
-                "Jane Smith": {
-                    memberSince: "11.8.24",
-                    username: "@janesmith24",
-                    totalHours: "12",
-                    opportunitiesWorked: "8",
-                    history: "Animal Shelter, Library, Community Center, Soup Kitchen..."
-                },
-                "Ethan Carter": {
-                    memberSince: "10.9.24",
-                    username: "@ethancarter16",
-                    totalHours: "32",
-                    opportunitiesWorked: "16",
-                    history: "Animal Shelter, Soup Kitchen, Community Center, UNT Graduation..."
-                },
-                "Sophia Bennett": {
-                    memberSince: "12.6.24",
-                    username: "@sophiabennett19",
-                    totalHours: "4",
-                    opportunitiesWorked: "1",
-                    history: "Animal Shelter"
-                },
-                "Liam Mitchell": {
-                    memberSince: "10.15.24",
-                    username: "@liammitchell12",
-                    totalHours: "4",
-                    opportunitiesWorked: "2",
-                    history: ", Library, Soup Kitchen"
-                },
-                "Olivia Harris": {
-                    memberSince: "11.6.24",
-                    username: "@oliviharris123",
-                    totalHours: "7",
-                    opportunitiesWorked: "3",
-                    history: "Soup Kitchen, Church, Community Center"
-                },
-                "Noah Anderson": {
-                    memberSince: "11.24.24",
-                    username: "@noahanderson983",
-                    totalHours: "12",
-                    opportunitiesWorked: "5",
-                    history: "Animal Shelter, Library, Community Center, Church..."
-                },
-                "Emma Brooks": {
-                    memberSince: "12.2.24",
-                    username: "@emmabrooks674",
-                    totalHours: "3",
-                    opportunitiesWorked: "1",
-                    history: "Library"
-                },
-                "James Turner": {
-                    memberSince: "11.4.24",
-                    username: "@jamesturner87",
-                    totalHours: "7",
-                    opportunitiesWorked: "3",
-                    history: "Soup Kitchen, Church, Community Center"
-                }
-            };
-
-            userItems.forEach((item) => {
-                item.addEventListener("click", () => {
-                    const userName = item.querySelector(".name").textContent;
-
-                    if (userData[userName]) {
-                        const userInfo = userData[userName];
-
-                        clickedProfile.querySelector(".date").textContent = `Member Since: ${userInfo.memberSince}`;
-                        clickedProfile.querySelector(".profile-info .name").textContent = userName;
-                        clickedProfile.querySelector(".profile-info .username").textContent = userInfo.username;
-                        clickedProfile.querySelector(".stats-item:nth-child(1)").innerHTML = `<strong>Total Hours:</strong> ${userInfo.totalHours}`;
-                        clickedProfile.querySelector(".stats-item:nth-child(2)").innerHTML = `<strong>Opportunities Worked:</strong> ${userInfo.opportunitiesWorked}`;
-                        clickedProfile.querySelector(".stats-item:nth-child(3)").innerHTML = `<strong>History:</strong> ${userInfo.history}`;
+                    if (user) {
+                        clickedProfile.querySelector(".date").textContent = `Member Since: ${user.joinDate}`;
+                        clickedProfile.querySelector(".profile-info .name").textContent = user.username;
+                        clickedProfile.querySelector(".profile-info .username").textContent = `@${user.username}`;
+                        clickedProfile.querySelector(".stats-item:nth-child(1)").innerHTML = `<strong>Total Hours:</strong> ${user.hours || 0}`;
+                        clickedProfile.querySelector(".stats-item:nth-child(2)").innerHTML = `<strong>Opportunities Worked:</strong> ${user.history.length}`;
+                        clickedProfile.querySelector(".stats-item:nth-child(3)").innerHTML = `<strong>History:</strong> ${user.history.join(", ")}`;
                     }
-                });
-            });
-
-            searchInput.addEventListener("keydown", (e) => {
-                if (e.key === "Enter") {
-                    e.preventDefault();
-                    const searchQuery = searchInput.value.trim().toLowerCase();
-
-                    userItems.forEach((item) => {
-                        const name = item.querySelector(".name").textContent.toLowerCase();
-                        item.style.display = name.includes(searchQuery) ? "flex" : "none";
-                    });
-                }
-            });
-        });
+                })
+                .catch(error => console.error("Error fetching user data:", error));
+        }
     </script>
 </body>
 </html>
