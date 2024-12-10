@@ -248,44 +248,44 @@
                 <div class="event-list">
                     <div class="event-item">
                         <div class="event-details">
-                            <div class="name">Event Name</div>
-                            <div class="location">Address</div>
-                            <div class="category">Category</div>
+                            <div class="name">Community Cleanup</div>
+                            <div class="location">123 Greenfield Road, Keller</div>
+                            <div class="category">Environmental</div>
                         </div>
                     </div>
                     <div class="event-item">
                         <div class="event-details">
-                            <div class="name">Event Name</div>
-                            <div class="location">Address</div>
-                            <div class="category">Category</div>
+                            <div class="name">Soup Kitchen Shift</div>
+                            <div class="location">456 Main Street, Grapevine</div>
+                            <div class="category">Community Service</div>
                         </div>
                     </div>
                     <div class="event-item">
                         <div class="event-details">
-                            <div class="name">Event Name</div>
-                            <div class="location">Address</div>
-                            <div class="category">Category</div>
+                            <div class="name">Animal Shelter Shift</div>
+                            <div class="location">789 Laurel Lane, Southlake</div>
+                            <div class="category">Animal Welfare</div>
                         </div>
                     </div>
                     <div class="event-item">
                         <div class="event-details">
-                            <div class="name">Event Name</div>
-                            <div class="location">Address</div>
-                            <div class="category">Category</div>
+                            <div class="name">Church Event Setup</div>
+                            <div class="location">842 God Drive, Colleyville</div>
+                            <div class="category">Religious</div>
                         </div>
                     </div>
                     <div class="event-item">
                         <div class="event-details">
-                            <div class="name">Event Name</div>
-                            <div class="location">Address</div>
-                            <div class="category">Category</div>
+                            <div class="name">Park Cleanup</div>
+                            <div class="location">903 Bear Creek Road, Keller</div>
+                            <div class="category">Environmental</div>
                         </div>
                     </div>
                     <div class="event-item">
                         <div class="event-details">
-                            <div class="name">Event Name</div>
-                            <div class="location">Address</div>
-                            <div class="category">Category</div>
+                            <div class="name">Tree Preservation Planting Shift</div>
+                            <div class="location">742 Dove Road, Grapevine</div>
+                            <div class="category">Environmental</div>
                         </div>
                     </div>
                 </div>
@@ -294,3 +294,87 @@
     </div>
 </body>
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const eventItems = document.querySelectorAll(".event-item");
+        const clickedEventBox = document.querySelector(".left-side .box");
+        const searchInput = document.querySelector(".event-search-input");
+        const calendarTitle = document.querySelector(".calendar-title");
+
+        const eventData = {
+            "Community Cleanup": {
+                location: "123 Greenfield Road, Keller",
+                category: "Environmental",
+                date: "12/15/2024",
+                time: "9:00 AM - 12:00 PM",
+                description: "Join us for a community-wide cleanup event to keep our city beautiful."
+            },
+            "Soup Kitchen Shift": {
+                location: "456 Main Street, Grapevine",
+                category: "Community Service",
+                date: "12/18/2024",
+                time: "11:00 AM - 2:00 PM",
+                description: "Help serve meals to those in need at the local soup kitchen."
+            },
+            "Animal Shelter Shift": {
+                location: "789 Laurel Lane, Southlake",
+                category: "Animal Welfare",
+                date: "12/20/2024",
+                time: "10:00 AM - 1:00 PM",
+                description: "Assist with pet care and cleaning at the animal shelter."
+            },
+            "Church Event Setup": {
+                location: "842 God Drive, Colleyville",
+                category: "Religious",
+                date: "12/22/2024",
+                time: "8:00 AM - 11:00 AM",
+                description: "Help set up for a special church event to support the community."
+            },
+            "Park Cleanup": {
+                location: "903 Bear Creek Road, Keller",
+                category: "Environmental",
+                date: "12/23/2024",
+                time: "9:00 AM - 12:00 PM",
+                description: "Clean and restore a local park to its natural beauty."
+            },
+            "Tree Preservation Planting Shift": {
+                location: "742 Dove Road, Grapevine",
+                category: "Environmental",
+                date: "12/25/2024",
+                time: "1:00 PM - 4:00 PM",
+                description: "Plant trees to preserve the environment for future generations."
+            }
+        };
+
+        eventItems.forEach((item) => {
+            item.addEventListener("click", () => {
+                const eventName = item.querySelector(".name").textContent.trim();
+
+                if (eventData[eventName]) {
+                    const eventInfo = eventData[eventName];
+                    clickedEventBox.querySelector(".event-info .name").textContent = eventName;
+                    clickedEventBox.querySelectorAll(".stats-item")[0].innerHTML = `<strong>Location:</strong> ${eventInfo.location}`;
+                    clickedEventBox.querySelectorAll(".stats-item")[1].innerHTML = `<strong>Category:</strong> ${eventInfo.category}`;
+                    clickedEventBox.querySelectorAll(".stats-item")[2].innerHTML = `<strong>Date:</strong> ${eventInfo.date}`;
+                    clickedEventBox.querySelectorAll(".stats-item")[3].innerHTML = `<strong>Time:</strong> ${eventInfo.time}`;
+                    clickedEventBox.querySelectorAll(".stats-item")[4].innerHTML = `<strong>Description:</strong> ${eventInfo.description}`;
+                }
+            });
+        });
+
+        searchInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                const searchQuery = searchInput.value.trim();
+
+                calendarTitle.textContent = searchQuery ? `Results for: ${searchQuery}` : "Results for: --";
+
+                eventItems.forEach((item) => {
+                    const name = item.querySelector(".name").textContent.toLowerCase();
+                    item.style.display = name.includes(searchQuery.toLowerCase()) ? "flex" : "none";
+                });
+            }
+        });
+    });
+</script>
