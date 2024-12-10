@@ -51,6 +51,10 @@ def save_users(users):
 def index():
     return render_template('index.html')
 
+@app.route('/direction.html')
+def direction():
+    return render_template('direction.html')
+
 # Route to serve the signup page
 @app.route('/signup', methods=['GET'])
 def signup_page():
