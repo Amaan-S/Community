@@ -578,10 +578,10 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-    // Target the button using its unique ID
     const createEventButton = document.getElementById("create-event-button");
+    const editEventButton = document.getElementById("edit-event-button");
+    let selectedEventBox = null; // To track the currently selected event box for editing
 
-    // Attach a click event listener to the button
     createEventButton.addEventListener("click", () => {
         // Retrieve input values from the form
         const eventName = document.getElementById("event-name").value.trim();
@@ -619,6 +619,23 @@
                 eventSquare.textContent = eventName;
                 eventSquare.classList.add("calendar-event-box");
 
+                // Store event details in data attributes
+                eventSquare.dataset.name = eventName;
+                eventSquare.dataset.startTime = startTime;
+                eventSquare.dataset.endTime = endTime;
+                eventSquare.dataset.description = description;
+
+                // Add a click event listener to populate the form with event details
+                eventSquare.addEventListener("click", () => {
+                    document.getElementById("event-name").value = eventSquare.dataset.name;
+                    document.getElementById("start-time").value = eventSquare.dataset.startTime;
+                    document.getElementById("end-time").value = eventSquare.dataset.endTime;
+                    document.getElementById("event-description").value = eventSquare.dataset.description;
+
+                    selectedEventBox = eventSquare; // Set the selected event box for editing
+                    alert(`Editing event: ${eventSquare.dataset.name}`);
+                });
+
                 // Add the event square to the cell
                 cell.appendChild(eventSquare);
             }
@@ -627,15 +644,46 @@
         // Clear the input fields after adding the event
         clearEventInputs();
     });
-});
 
-// Helper function to clear the input fields
-function clearEventInputs() {
-    document.getElementById("event-name").value = "";
-    document.getElementById("start-time").value = "";
-    document.getElementById("end-time").value = "";
-    document.getElementById("event-description").value = "";
-}
+    editEventButton.addEventListener("click", () => {
+        // Ensure there is a selected event box to edit
+        if (!selectedEventBox) {
+            alert("Please select an event to edit.");
+            return;
+        }
+
+        // Retrieve updated input values from the form
+        const updatedEventName = document.getElementById("event-name").value.trim();
+        const updatedStartTime = document.getElementById("start-time").value.trim();
+        const updatedEndTime = document.getElementById("end-time").value.trim();
+        const updatedDescription = document.getElementById("event-description").value.trim();
+
+        // Validate input fields
+        if (!updatedEventName || !updatedStartTime || !updatedEndTime || !updatedDescription) {
+            alert("Please fill out all required fields.");
+            return;
+        }
+
+        // Update the selected event box details
+        selectedEventBox.textContent = updatedEventName;
+        selectedEventBox.dataset.name = updatedEventName;
+        selectedEventBox.dataset.startTime = updatedStartTime;
+        selectedEventBox.dataset.endTime = updatedEndTime;
+        selectedEventBox.dataset.description = updatedDescription;
+
+        alert(`Event updated: ${updatedEventName}`);
+        clearEventInputs();
+        selectedEventBox = null; // Clear the selected event box after editing
+    });
+
+    // Helper function to clear the input fields
+    function clearEventInputs() {
+        document.getElementById("event-name").value = "";
+        document.getElementById("start-time").value = "";
+        document.getElementById("end-time").value = "";
+        document.getElementById("event-description").value = "";
+    }
+});
 
 </script>
 
