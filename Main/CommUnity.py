@@ -147,29 +147,26 @@ def organizer_home():
         return "User not found", 404
     return render_template('OrganizerHome.html', user=user)
 
-@app.route('/usersearch', methods=['GET', 'POST'])
+@app.route('/usersearch.html', methods=['GET', 'POST'])
 def user_search():
     user_data = None  # Default: no user found
     if request.method == 'POST':
         username = request.form.get('username')  # Get the username from the form
-        
-        # Path to users.json
-        users_file_path = os.path.join(os.path.dirname(__file__), '../users.json')
-        
+
+        # Load users from JSON
         try:
-            # Load users from the JSON file
-            with open(users_file_path, 'r') as file:
+            with open(file_path, 'r') as file:
                 users = json.load(file)
         except (FileNotFoundError, json.JSONDecodeError):
             users = []
 
-        # Search for the user by username
+        # Search for the user
         for user in users:
             if user.get('username') == username:
                 user_data = user
                 break
-    
-    # Render the user search page with the found user data (if any)
+
+    # Render usersearch.html with the found user data
     return render_template('usersearch.html', user_data=user_data)
 
 
