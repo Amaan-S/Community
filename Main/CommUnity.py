@@ -47,6 +47,10 @@ def save_users(users):
     except Exception as e:
         print(f"Error saving users: {e}")
 
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
 # Route to serve the signup page
 @app.route('/signup', methods=['GET'])
 def signup_page():
