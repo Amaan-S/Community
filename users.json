@@ -4,7 +4,7 @@
         "userID": "512065",
         "username": "jcomp",
         "password": "jcomp",
-        "email": null,
+        "email": "jcomp@jihadcompany.com",
         "joinDate": "2024-12-06",
         "orgName": "Jihad Company",
         "events": [],
@@ -20,7 +20,7 @@
         "userID": "457194",
         "username": "manj",
         "password": "manj",
-        "email": null,
+        "email": "manj@jihadcompany2.com",
         "joinDate": "2024-12-06",
         "orgName": "Jihad Company2",
         "events": [],
@@ -43,8 +43,200 @@
         "address": {
             "street": "2434",
             "city": "Aspen",
-            "state": "Colorade",
+            "state": "Colorado",
             "zipCode": "34251"
+        }
+    },
+    {
+        "userType": 1,
+        "userID": "751203",
+        "username": "clarkK",
+        "password": "clarkK",
+        "email": "clark.org@gmail.com",
+        "joinDate": "2024-12-10",
+        "orgName": "Clark Org",
+        "events": [],
+        "address": {
+            "street": "123 Main St",
+            "city": "Metropolis",
+            "state": "NY",
+            "zipCode": "10001"
+        }
+    },
+    {
+        "userType": 1,
+        "userID": "821456",
+        "username": "dianaW",
+        "password": "dianaW",
+        "email": "diana.wonders@gmail.com",
+        "joinDate": "2024-12-10",
+        "orgName": "Diana Wonders",
+        "events": [],
+        "address": {
+            "street": "456 Maple Ave",
+            "city": "Gateway City",
+            "state": "CA",
+            "zipCode": "90210"
+        }
+    },
+    {
+        "userType": 1,
+        "userID": "362194",
+        "username": "bruceW",
+        "password": "bruceW",
+        "email": "bruce_wayne@gmail.com",
+        "joinDate": "2024-12-10",
+        "orgName": "Wayne Enterprises",
+        "events": [],
+        "address": {
+            "street": "100 Gotham Plaza",
+            "city": "Gotham",
+            "state": "NJ",
+            "zipCode": "07001"
+        }
+    },
+    {
+        "userType": 1,
+        "userID": "482910",
+        "username": "selinaK",
+        "password": "selinaK",
+        "email": "selina.kyle@gmail.com",
+        "joinDate": "2024-12-10",
+        "orgName": "Kyle Rescue",
+        "events": [],
+        "address": {
+            "street": "22 Cat St",
+            "city": "Gotham",
+            "state": "NJ",
+            "zipCode": "07001"
+        }
+    },
+    {
+        "userType": 1,
+        "userID": "593014",
+        "username": "barryA",
+        "password": "barryA",
+        "email": "barry.allen@gmail.com",
+        "joinDate": "2024-12-10",
+        "orgName": "Speed Force Charity",
+        "events": [],
+        "address": {
+            "street": "202 Central Blvd",
+            "city": "Central City",
+            "state": "KS",
+            "zipCode": "67213"
+        }
+    },
+    {
+        "userType": 1,
+        "userID": "394027",
+        "username": "arthurC",
+        "password": "arthurC",
+        "email": "arthur.curry@gmail.com",
+        "joinDate": "2024-12-10",
+        "orgName": "Atlantis Outreach",
+        "events": [],
+        "address": {
+            "street": "77 Ocean Dr",
+            "city": "Amnesty Bay",
+            "state": "ME",
+            "zipCode": "04001"
+        }
+    },
+    {
+        "userType": 1,
+        "userID": "674839",
+        "username": "halJ",
+        "password": "halJ",
+        "email": "hal.jordan@gmail.com",
+        "joinDate": "2024-12-10",
+        "orgName": "Lantern Alliance",
+        "events": [],
+        "address": {
+            "street": "1 Green St",
+            "city": "Coast City",
+            "state": "CA",
+            "zipCode": "94301"
+        }
+    },
+    {
+        "userType": 1,
+        "userID": "562983",
+        "username": "victorS",
+        "password": "victorS",
+        "email": "victor.stone@gmail.com",
+        "joinDate": "2024-12-10",
+        "orgName": "Cyborg Systems",
+        "events": [],
+        "address": {
+            "street": "88 Tech Lane",
+            "city": "Detroit",
+            "state": "MI",
+            "zipCode": "48201"
+        }
+    },
+    {
+        "userType": 1,
+        "userID": "718293",
+        "username": "oliverQ",
+        "password": "oliverQ",
+        "email": "oliver.queen@gmail.com",
+        "joinDate": "2024-12-10",
+        "orgName": "Queen Industries",
+        "events": [],
+        "address": {
+            "street": "45 Arrow Rd",
+            "city": "Star City",
+            "state": "WA",
+            "zipCode": "98052"
+        }
+    },
+    {
+        "userType": 1,
+        "userID": "394872",
+        "username": "dinahD",
+        "password": "dinahD",
+        "email": "dinah.drake@gmail.com",
+        "joinDate": "2024-12-10",
+        "orgName": "Black Canary Foundation",
+        "events": [],
+        "address": {
+            "street": "66 Canary Ln",
+            "city": "Star City",
+            "state": "WA",
+            "zipCode": "98052"
+        }
+    },
+    {
+        "userType": 1,
+        "userID": "682491",
+        "username": "johnS",
+        "password": "johnS",
+        "email": "john.stewart@gmail.com",
+        "joinDate": "2024-12-10",
+        "orgName": "Guardian Corps",
+        "events": [],
+        "address": {
+            "street": "99 Lantern Blvd",
+            "city": "Coast City",
+            "state": "CA",
+            "zipCode": "94301"
+        }
+    },
+    {
+        "userType": 1,
+        "userID": "573920",
+        "username": "shieraH",
+        "password": "shieraH",
+        "email": "shiera.hol@gmail.com",
+        "joinDate": "2024-12-10",
+        "orgName": "Hawk Wings Foundation",
+        "events": [],
+        "address": {
+            "street": "33 Sky Rd",
+            "city": "Midway City",
+            "state": "IL",
+            "zipCode": "60007"
         }
     }
 ]
