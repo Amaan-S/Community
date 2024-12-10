@@ -382,7 +382,7 @@
                         <button>Accept Applicants</button>
                     </div>
                 </div>
-                <div class="circled-box">
+                <div class="circled-box" style="display: none;">
                     <div class="scrollable-volunteers">
                         <div class="volunteer-item">
                             <input type="checkbox" id="vol1">
@@ -577,11 +577,16 @@
     </script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     const createEventButton = document.getElementById("create-event-button");
     const editEventButton = document.getElementById("edit-event-button");
+    const volunteerSection = document.querySelector(".circled-box"); // Select the volunteer section
     let selectedEventBox = null; // To track the currently selected event box for editing
 
+    // Initially hide the volunteer section
+    volunteerSection.style.display = "none";
+
+    // Create Event functionality
     createEventButton.addEventListener("click", () => {
         // Retrieve input values from the form
         const eventName = document.getElementById("event-name").value.trim();
@@ -633,7 +638,9 @@
                     document.getElementById("event-description").value = eventSquare.dataset.description;
 
                     selectedEventBox = eventSquare; // Set the selected event box for editing
-                    alert(`Editing event: ${eventSquare.dataset.name}`);
+
+                    // Show the volunteer section during editing
+                    volunteerSection.style.display = "block";
                 });
 
                 // Add the event square to the cell
@@ -645,6 +652,7 @@
         clearEventInputs();
     });
 
+    // Edit Event functionality
     editEventButton.addEventListener("click", () => {
         // Ensure there is a selected event box to edit
         if (!selectedEventBox) {
@@ -672,11 +680,15 @@
         selectedEventBox.dataset.description = updatedDescription;
 
         alert(`Event updated: ${updatedEventName}`);
+
+        // Hide the volunteer section after editing
+        volunteerSection.style.display = "none";
+
+
+        selectedEventBox = null;
         clearEventInputs();
-        selectedEventBox = null; // Clear the selected event box after editing
     });
 
-    // Helper function to clear the input fields
     function clearEventInputs() {
         document.getElementById("event-name").value = "";
         document.getElementById("start-time").value = "";
@@ -684,6 +696,9 @@
         document.getElementById("event-description").value = "";
     }
 });
+
+
+
 
 </script>
 
