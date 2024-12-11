@@ -217,7 +217,7 @@
                                     {% if logged_in_user %}
                                         {% if logged_in_user.userType == 0 %}
                                             {{ logged_in_user.firstName + ' ' + logged_in_user.lastName }}
-                                        {% else %}
+                                        {% else if logged_in_user.userType == 1 %}
                                             {{ logged_in_user.orgName }}
                                         {% endif %}
                                     {% else %}
@@ -225,7 +225,7 @@
                                     {% endif %}
                                 </div>
                                 <div class="username">{{ logged_in_user.username if logged_in_user else '@--' }}</div>
-                                <div class="role">{{ 'Volunteer' if logged_in_user and logged_in_user.userType == 0 else 'Organizer' if logged_in_user else '--' }}</div>
+                                <div class="role">{{ 'Volunteer' if logged_in_user and logged_in_user.userType == 0 else if 'Organizer' if logged_in_user and logged_in_user.userType == 1 else '--' }}</div>
                             </div>
                             <div class="stats">
                                 <div class="stats-item"><strong>Total Hours:</strong> {{ logged_in_user.hours if logged_in_user else '--' }}</div>
