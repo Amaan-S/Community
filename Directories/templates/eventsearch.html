@@ -175,6 +175,7 @@
             margin-top: 20px;
         }
         .event-item {
+            /*background for the events stuff*/
             display: flex;
             align-items: center;
             padding: 15px;
@@ -182,7 +183,13 @@
             border-radius: 15px;
             border: 1px solid #ccc;
             box-sizing: border-box;
+            transition: background-color 0.2s ease;
         }
+        .event-item:hover{
+            background-color: #5dade2;
+            transform: scale(1.05);
+            border-radius: 25px; 
+        }        
         .event-circle {
             width: 40px;
             height: 40px; 
