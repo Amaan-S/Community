@@ -213,7 +213,17 @@
                             <div class="date">Member Since: {{ logged_in_user.joinDate if logged_in_user else '--' }}</div>
                             <div class="profile-picture"></div>
                             <div class="profile-info">
-                                <div class="name">{{ logged_in_user.firstName + ' ' + logged_in_user.lastName if logged_in_user else 'Your Profile' }}</div>
+                                <div class="name">
+                                    {% if logged_in_user %}
+                                        {% if logged_in_user.userType == 0 %}
+                                            {{ logged_in_user.firstName + ' ' + logged_in_user.lastName }}
+                                        {% else %}
+                                            {{ logged_in_user.orgName }}
+                                        {% endif %}
+                                    {% else %}
+                                        Your Profile
+                                    {% endif %}
+                                </div>
                                 <div class="username">{{ logged_in_user.username if logged_in_user else '@--' }}</div>
                                 <div class="role">{{ 'Volunteer' if logged_in_user and logged_in_user.userType == 0 else 'Organizer' if logged_in_user else '--' }}</div>
                             </div>
