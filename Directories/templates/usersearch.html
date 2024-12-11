@@ -199,18 +199,20 @@
     </style>
 </head>
 <body>
-    <header>
-        {% if logged_in_user %}
+<header>
+    {% if logged_in_user %}
         {% if logged_in_user.userType == 0 %}
-            <a href="/volunteerhomepage" class="user-search">🏠 Homepage</a>
+            <a href="/volunteer_home?username={{ logged_in_user.username }}" class="user-search">🏠 Homepage</a>
         {% elif logged_in_user.userType == 1 %}
-            <a href="/OrganizerHome" class="user-search">🏠 Homepage</a>
+            <a href="/Organizer_home?username={{ logged_in_user.username }}" class="user-search">🏠 Homepage</a>
         {% endif %}
     {% endif %}
-        <div class="header-center" style="text-align: center;">CommUnity: User Search</div>
-        <a href="eventsearch.html" class="event-search">🔍 Event Search</a>
-        <a href="direction.html" class="logout-box">Logout</a>
-    </header>
+    
+    <div class="header-center" style="text-align: center;">CommUnity: User Search</div>
+    <a href="eventsearch.html" class="event-search">🔍 Event Search</a>
+    <a href="direction.html" class="logout-box">Logout</a>
+</header>
+
 
     <div class="container">
         <div class="left-side">
