@@ -225,18 +225,180 @@
     },
     {
         "userType": 1,
-        "userID": "573920",
-        "username": "shieraH",
-        "password": "shieraH",
-        "email": "shiera.hol@gmail.com",
-        "joinDate": "2024-12-10",
-        "orgName": "Hawk Wings Foundation",
+        "userID": 1047,
+        "username": "user1047",
+        "password": "pass1047",
+        "email": "org1047@example.com",
+        "joinDate": "2024-12-11",
+        "orgName": "Organization1047",
         "events": [],
         "address": {
-            "street": "33 Sky Rd",
-            "city": "Midway City",
-            "state": "IL",
-            "zipCode": "60007"
+            "street": "234 Main St",
+            "city": "Cityville",
+            "state": "TX",
+            "zipCode": "84017"
         }
+    },
+    {
+        "userType": 0,
+        "userID": 1230,
+        "username": "user1230",
+        "password": "pass1230",
+        "email": "user1230@example.com",
+        "joinDate": "2024-12-11",
+        "firstName": "First1230",
+        "lastName": "Last1230",
+        "DOB": "1976-09-07",
+        "location": "97901",
+        "gender": "Female",
+        "preferredCats": [
+            "Community Service",
+            "Education & Mentorship"
+        ],
+        "hours": 248,
+        "history": []
+    },
+    {
+        "userType": 0,
+        "userID": 3424,
+        "username": "user3424",
+        "password": "pass3424",
+        "email": "user3424@example.com",
+        "joinDate": "2024-12-11",
+        "firstName": "First3424",
+        "lastName": "Last3424",
+        "DOB": "1982-12-05",
+        "location": "82941",
+        "gender": "Female",
+        "preferredCats": [
+            "Community Service",
+            "Education & Mentorship"
+        ],
+        "hours": 486,
+        "history": []
+    },
+    {
+        "userType": 0,
+        "userID": 1664,
+        "username": "user1664",
+        "password": "pass1664",
+        "email": "user1664@example.com",
+        "joinDate": "2024-12-11",
+        "firstName": "First1664",
+        "lastName": "Last1664",
+        "DOB": "1976-07-02",
+        "location": "18860",
+        "gender": "Female",
+        "preferredCats": [
+            "Community Service",
+            "Education & Mentorship"
+        ],
+        "hours": 304,
+        "history": []
+    },
+    {
+        "userType": 1,
+        "userID": 9287,
+        "username": "user9287",
+        "password": "pass9287",
+        "email": "org9287@example.com",
+        "joinDate": "2024-12-11",
+        "orgName": "Organization9287",
+        "events": [],
+        "address": {
+            "street": "925 Main St",
+            "city": "Cityville",
+            "state": "FL",
+            "zipCode": "41338"
+        }
+    },
+    {
+        "userType": 0,
+        "userID": 5794,
+        "username": "user5794",
+        "password": "pass5794",
+        "email": "user5794@example.com",
+        "joinDate": "2024-12-11",
+        "firstName": "First5794",
+        "lastName": "Last5794",
+        "DOB": "1980-03-17",
+        "location": "79394",
+        "gender": "Male",
+        "preferredCats": [
+            "Community Service",
+            "Education & Mentorship"
+        ],
+        "hours": 261,
+        "history": []
+    },
+    {
+        "userType": 1,
+        "userID": 1829,
+        "username": "user1829",
+        "password": "pass1829",
+        "email": "org1829@example.com",
+        "joinDate": "2024-12-11",
+        "orgName": "Organization1829",
+        "events": [],
+        "address": {
+            "street": "245 Main St",
+            "city": "Cityville",
+            "state": "WA",
+            "zipCode": "94940"
+        }
+    },
+    {
+        "userType": 0,
+        "userID": 5438,
+        "username": "user5438",
+        "password": "pass5438",
+        "email": "user5438@example.com",
+        "joinDate": "2024-12-11",
+        "firstName": "First5438",
+        "lastName": "Last5438",
+        "DOB": "1996-02-12",
+        "location": "84246",
+        "gender": "Other",
+        "preferredCats": [
+            "Community Service",
+            "Education & Mentorship"
+        ],
+        "hours": 153,
+        "history": []
+    },
+    {
+        "userType": 1,
+        "userID": 1525,
+        "username": "user1525",
+        "password": "pass1525",
+        "email": "org1525@example.com",
+        "joinDate": "2024-12-11",
+        "orgName": "Organization1525",
+        "events": [],
+        "address": {
+            "street": "303 Main St",
+            "city": "Cityville",
+            "state": "CA",
+            "zipCode": "24117"
+        }
+    },
+    {
+        "userType": 0,
+        "userID": 7030,
+        "username": "user7030",
+        "password": "pass7030",
+        "email": "user7030@example.com",
+        "joinDate": "2024-12-11",
+        "firstName": "First7030",
+        "lastName": "Last7030",
+        "DOB": "1988-08-10",
+        "location": "29970",
+        "gender": "Female",
+        "preferredCats": [
+            "Community Service",
+            "Education & Mentorship"
+        ],
+        "hours": 71,
+        "history": []
     }
 ]
