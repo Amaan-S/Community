@@ -240,11 +240,19 @@
                                 </div>
                             </div>
                             <div class="stats">
-                                {% if logged_in_user and logged_in_user.userType == 0 %}
-                                    <div class="stats-item"><strong>Total Hours:</strong> {{ logged_in_user.hours }}</div>
+                                {% if logged_in_user %}
+                                    {% if logged_in_user.userType == 0 %}
+                                        <div class="stats-item"><strong>Total Hours:</strong> {{ logged_in_user.hours }}</div>
+                                        <div class="stats-item"><strong>Opportunities Worked:</strong> {{ logged_in_user.history|length if logged_in_user.history else '--' }}</div>
+                                        <div class="stats-item"><strong>History:</strong> {{ ', '.join(logged_in_user.history) if logged_in_user.history else '--' }}</div>
+                                    {% elif logged_in_user.userType == 1 %}
+                                        <div class="stats-item"><strong>Address:</strong></div>
+                                        <div class="stats-item">{{ logged_in_user.address.street }},</div>
+                                        <div class="stats-item">{{ logged_in_user.address.city }}, {{ logged_in_user.address.state }} {{ logged_in_user.address.zipCode }}</div>
+                                    {% endif %}
+                                {% else %}
+                                    <div class="stats-item">No data available</div>
                                 {% endif %}
-                                <div class="stats-item"><strong>Opportunities Worked:</strong> {{ logged_in_user.history|length if logged_in_user and logged_in_user.history else '--' }}</div>
-                                <div class="stats-item"><strong>History:</strong> {{ ', '.join(logged_in_user.history) if logged_in_user and logged_in_user.history else '--' }}</div>
                             </div>
                         </div>
                     </div>
