@@ -167,7 +167,10 @@ def user_search():
 
     # Render usersearch.html with logged-in user data
     return render_template('usersearch.html', logged_in_user=logged_in_user)
-
+    
+@app.route('/eventsearch.html')
+def event_search():
+    return render_template('eventsearch.html')  #redirection to eventsearch.html in templates folder
 
 
 if __name__ == '__main__':
