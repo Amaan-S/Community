@@ -204,7 +204,7 @@
         {% if logged_in_user.userType == 0 %}
             <a href="/volunteer_home?username={{ logged_in_user.username }}" class="user-search">🏠 Homepage</a>
         {% elif logged_in_user.userType == 1 %}
-            <a href="/Organizer_home?username={{ logged_in_user.username }}" class="user-search">🏠 Homepage</a>
+            <a href="/organizer_home?username={{ logged_in_user.username }}" class="user-search">🏠 Homepage</a>
         {% endif %}
     {% endif %}
     
