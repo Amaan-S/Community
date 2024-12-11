@@ -151,7 +151,7 @@ def organizer_home():
         return "User not found", 404
     return render_template('OrganizerHome.html', user=user)
 
-@app.route('/usersearch.html', methods=['GET', 'POST'])
+@app.route('/usersearch', methods=['GET', 'POST'])
 def user_search():
     logged_in_user = None
     if 'username' in session:
