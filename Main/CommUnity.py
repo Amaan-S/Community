@@ -153,10 +153,8 @@ def organizer_home():
 
 @app.route('/usersearch.html', methods=['GET', 'POST'])
 def user_search():
-    user_data = None  # Default: no user found
-    if request.method == 'POST':
-        username = request.form.get('username')  # Get the username from the form
-
+    logged_in_user = None
+    if 'username' in session:
         # Load users from JSON
         try:
             with open(file_path, 'r') as file:
@@ -164,14 +162,12 @@ def user_search():
         except (FileNotFoundError, json.JSONDecodeError):
             users = []
 
-        # Search for the user
-        for user in users:
-            if user.get('username') == username:
-                user_data = user
-                break
+        # Find the logged-in user
+        logged_in_user = next((u for u in users if u.get('username') == session['username']), None)
 
-    # Render usersearch.html with the found user data
-    return render_template('usersearch.html', user_data=user_data)
+    # Render usersearch.html with logged-in user data
+    return render_template('usersearch.html', logged_in_user=logged_in_user)
+
 
 
 if __name__ == '__main__':
