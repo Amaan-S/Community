@@ -202,9 +202,9 @@
     <header>
         {% if logged_in_user %}
         {% if logged_in_user.userType == 0 %}
-            <a href="volunteerhomepage.html" class="user-search">🏠 Homepage</a>
+            <a href="/volunteerhomepage" class="user-search">🏠 Homepage</a>
         {% elif logged_in_user.userType == 1 %}
-            <a href="OrganizerHome.html" class="user-search">🏠 Homepage</a>
+            <a href="/OrganizerHome" class="user-search">🏠 Homepage</a>
         {% endif %}
     {% endif %}
         <div class="header-center" style="text-align: center;">CommUnity: User Search</div>
@@ -229,7 +229,7 @@
                         {% else %}
                             Your Profile
                         {% endif %}</div>
-                        <div class="username">{{ logged_in_user.username if logged_in_user else '@--' }}</div>
+                        <div class="username">{{ logged_in_user.username if logged_in_user else '--' }}</div>
                         <div class="role">                                    
                             {% if logged_in_user %}
                             {% if logged_in_user.userType == 0 %}
