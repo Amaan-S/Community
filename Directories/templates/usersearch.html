@@ -163,7 +163,7 @@
             margin-top: 20px;
         }
         .user-item {
-        /* Background for the users in the user search box */
+    /* Background for the users in the user search box */
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -200,61 +200,62 @@
 </head>
 <body>
     <header>
-        <a href="usersearch.html" class="user-search">🔍 User Search</a>
-        <div class="header-center">CommUnity: User Search</div>
+        {% if logged_in_user %}
+        {% if logged_in_user.userType == 0 %}
+            <a href="volunteerhomepage.html" class="user-search">🏠 Homepage</a>
+        {% elif logged_in_user.userType == 1 %}
+            <a href="OrganizerHome.html" class="user-search">🏠 Homepage</a>
+        {% endif %}
+        <div class="header-center" style="text-align: center;">CommUnity: User Search</div>
         <a href="eventsearch.html" class="event-search">🔍 Event Search</a>
         <a href="direction.html" class="logout-box">Logout</a>
     </header>
 
     <div class="container">
         <div class="left-side">
-                <div class="box-container">
-                        <div class="box">
-                            <div class="date">Member Since: {{ logged_in_user.joinDate if logged_in_user else '--' }}</div>
-                            <div class="profile-picture"></div>
-                            <div class="profile-info">
-                                <div class="name">
-                                    {% if logged_in_user %}
-                                        {% if logged_in_user.userType == 0 %}
-                                            {{ logged_in_user.firstName + ' ' + logged_in_user.lastName }}
-                                        {% elif logged_in_user.userType == 1 %}
-                                            {{ logged_in_user.orgName }}
-                                        {% endif %}
-                                    {% else %}
-                                        Your Profile
-                                    {% endif %}
-                                </div>
-                                <div class="username">{{ logged_in_user.username if logged_in_user else '@--' }}</div>
-                                <div class="role">
-                                    {% if logged_in_user %}
-                                        {% if logged_in_user.userType == 0 %}
-                                            Volunteer
-                                        {% elif logged_in_user.userType == 1 %}
-                                            Organizer
-                                        {% else %}
-                                            --
-                                        {% endif %}
-                                    {% else %}
-                                        --
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="stats">
-                                {% if logged_in_user %}
-                                    {% if logged_in_user.userType == 0 %}
-                                        <div class="stats-item"><strong>Total Hours:</strong> {{ logged_in_user.hours }}</div>
-                                        <div class="stats-item"><strong>Opportunities Worked:</strong> {{ logged_in_user.history|length if logged_in_user.history else '--' }}</div>
-                                        <div class="stats-item"><strong>History:</strong> {{ ', '.join(logged_in_user.history) if logged_in_user.history else '--' }}</div>
-                                    {% elif logged_in_user.userType == 1 %}
-                                        <div class="stats-item"><strong>Address:</strong></div>
-                                        <div class="stats-item">{{ logged_in_user.address.street }},</div>
-                                        <div class="stats-item">{{ logged_in_user.address.city }}, {{ logged_in_user.address.state }} {{ logged_in_user.address.zipCode }}</div>
-                                    {% endif %}
-                                {% else %}
-                                    <div class="stats-item">No data available</div>
-                                {% endif %}
-                            </div>
-                        </div>
+            <div class="box-container">
+                <div class="box">
+                    <div class="date">Member Since: {{ logged_in_user.joinDate if logged_in_user else '--' }}</div>
+                    <div class="profile-picture"></div>
+                    <div class="profile-info">
+                        <div class="name">                                    
+                            {% if logged_in_user %}
+                            {% if logged_in_user.userType == 0 %}
+                                {{ logged_in_user.firstName + ' ' + logged_in_user.lastName }}
+                            {% elif logged_in_user.userType == 1 %}
+                                {{ logged_in_user.orgName }}
+                            {% endif %}
+                        {% else %}
+                            Your Profile
+                        {% endif %}</div>
+                        <div class="username">{{ logged_in_user.username if logged_in_user else '@--' }}</div>
+                        <div class="role">                                    
+                            {% if logged_in_user %}
+                            {% if logged_in_user.userType == 0 %}
+                                Volunteer
+                            {% elif logged_in_user.userType == 1 %}
+                                Organizer
+                            {% else %}
+                                --
+                            {% endif %}
+                        {% else %}
+                            --
+                        {% endif %}</div>
+                    </div>
+                    <div class="stats">
+                        {% if logged_in_user %}
+                        {% if logged_in_user.userType == 0 %}
+                            <div class="stats-item"><strong>Total Hours:</strong> {{ logged_in_user.hours }}</div>
+                            <div class="stats-item"><strong>Opportunities Worked:</strong> {{ logged_in_user.history|length if logged_in_user.history else '--' }}</div>
+                            <div class="stats-item"><strong>History:</strong> {{ ', '.join(logged_in_user.history) if logged_in_user.history else '--' }}</div>
+                        {% elif logged_in_user.userType == 1 %}
+                            <div class="stats-item"><strong>Address:</strong></div>
+                            <div class="stats-item">{{ logged_in_user.address.street }},</div>
+                            <div class="stats-item">{{ logged_in_user.address.city }}, {{ logged_in_user.address.state }} {{ logged_in_user.address.zipCode }}</div>
+                        {% endif %}
+                    {% else %}
+                        <div class="stats-item">No data available</div>
+                    {% endif %}
                     </div>
                 </div>
             </div>
