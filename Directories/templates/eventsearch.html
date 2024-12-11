@@ -107,20 +107,6 @@
             margin-top: 5px;
             clear: both;
         }
-        .homepage-box {
-            margin-left: 10px;
-            padding: 10px;
-            background-color: #98FB98;
-            color: black;
-            border-radius: 5px;
-            font-size: 18px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-sizing: border-box;
-            border: 1px solid LightGray;
-        }
         .event-info .category {
             font-weight: bold;
             color: #555;
@@ -230,9 +216,9 @@
     <header>
         {% if logged_in_user %}
         {% if logged_in_user.userType == 0 %}
-            <a href="/volunteer_home?username={{ logged_in_user.username }}" class="homepage-box">🏠 Homepage</a>
+            <a href="/volunteer_home?username={{ logged_in_user.username }}" class="user-search">🏠 Homepage</a>
         {% elif logged_in_user.userType == 1 %}
-            <a href="/organizer_home?username={{ logged_in_user.username }}" class="homepage-box">🏠 Homepage</a>
+            <a href="/organizer_home?username={{ logged_in_user.username }}" class="user-search">🏠 Homepage</a>
         {% endif %}
     {% endif %}
         <a href="/usersearch" class="user-search">🔍 User Search</a>
