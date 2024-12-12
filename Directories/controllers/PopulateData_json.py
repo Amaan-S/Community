@@ -1,7 +1,7 @@
 import os
 import json
 from dotenv import load_dotenv
-from user import User, Volunteer, Organizer, Events
+from Directories.controllers.user import User, Volunteer, Organizer, Events
 from DatabasePull import db_connection, fetch_attributes_user, fetch_attributes_volunteer, fetch_attributes_organizer, fetch_attributes_events
 
 def fetch_all_data():
