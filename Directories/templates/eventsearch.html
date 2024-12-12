@@ -216,14 +216,14 @@
     <header>
         {% if logged_in_user %}
             {% if logged_in_user.userType == 0 %}
-                <a href="/volunteerhomepage?username={{ logged_in_user.username }}" class="user-search">🏠 Homepage</a>
+                <a href="volunteerhomepage?username={{ logged_in_user.username }}" class="user-search">🏠 Homepage</a>
             {% elif logged_in_user.userType == 1 %}
-                <a href="/OrganizerHome?username={{ logged_in_user.username }}" class="user-search">🏠 Homepage</a>
+                <a href="OrganizerHome?username={{ logged_in_user.username }}" class="user-search">🏠 Homepage</a>
             {% else %}
-                <a href="/home" class="user-search">🏠 Homepage</a> <!-- Fallback for unknown userType -->
+                <a href="/direction.html" class="user-search">🏠 Homepage</a> <!-- Fallback for unknown userType -->
             {% endif %}
         {% else %}
-            <a href="/home" class="user-search">🏠 Homepage</a> <!-- Fallback for unauthenticated users -->
+            <a href="/direction.html" class="user-search">🏠 Homepage</a> <!-- Fallback for unauthenticated users -->
         {% endif %}
         <a href="/usersearch" class="user-search">🔍 User Search</a>
         <div class="header-center">CommUnity: Event Search</div>
