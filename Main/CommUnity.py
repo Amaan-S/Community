@@ -1,5 +1,6 @@
 import json
 from flask import Flask, render_template, request, redirect, session, jsonify
+from Directories.controllers.user import Event, Organizer
 import os
 import sys
 from flask_session import Session
@@ -14,8 +15,10 @@ current_dir = os.path.dirname(os.path.abspath(__file__))  # Path to Main
 project_root = os.path.dirname(current_dir)              # Path to project root
 sys.path.append(project_root)                            # Add project root to module search path
 
-# File path for users.json in the project root
+# File path for users.json and all_events.json in the project root
 file_path = os.path.join(project_root, 'users.json')
+events_file = os.path.join(project_root, 'all_events.json')
+
 
 app = Flask(__name__, template_folder='../Directories/templates')
 CORS(app, resources={r"/*": {"origins": "https://communitytaajj.my"}})        #ensure that communitytaajj.my (domain) can interact with flask backend
@@ -123,6 +126,7 @@ def login():
         user = next((u for u in users if u['username'] == username and u['password'] == password), None)
         if user:
             session['username'] = username
+            session['userID'] = user['userID']  # Ensure userID is set here
             user_type = user.get('userType')
             if user_type == 0:
                 return redirect(f'/volunteer_home?username={username}')
@@ -199,6 +203,92 @@ def get_events():
  #   return render_template('eventsearch.html', logged_in_user=logged_in_user)
  #  */ 
 
+# Function to load all events
+def load_events():
+    if not os.path.exists(events_file):
+        print("all_events.json not found. Initializing an empty events list.")
+        return []
+    try:
+        with open(events_file, 'r') as file:
+            return json.load(file)
+    except json.JSONDecodeError:
+        print("Error decoding all_events.json. Initializing an empty events list.")
+        return []
+
+# Function to save all events
+def save_events(events):
+    try:
+        with open(events_file, 'w') as file:
+            json.dump(events, file, indent=4)
+            print("Events successfully saved.")
+    except Exception as e:
+        print(f"Error saving events: {e}")
+
+# Function to find an event by its ID
+def find_event_by_id(event_id):
+    events = load_events()
+    return next((event for event in events if event["id"] == event_id), None)
+
+@app.route('/create_event', methods=['POST'])
+def create_event():
+    event_data = request.json
+    organizer_id = session.get('userID')  # Assuming session stores the organizer's user ID
+
+    # Parse and validate event data
+    name = event_data.get('name', 'Untitled Event')
+    date = event_data.get('date', datetime.now().strftime("%m-%d-%Y"))  # Default to today's date
+    start_time = event_data.get('start_time', '00:00')
+    end_time = event_data.get('end_time', '00:00')
+    address = event_data.get('address', 'No Address')
+    category = event_data.get('category', 'Miscellaneous')
+    vAmount = event_data.get('volunteers_needed', 0)
+    hoursReward = event_data.get('hours_rewarded', 0)
+    description = event_data.get('description', 'No Description')
+    orgName = session.get('username', 'Unknown Organizer')  # Assuming organizer's username is in session
+
+    # Create an Event object
+    new_event = Event(name, date, start_time, end_time, address, category, vAmount, hoursReward, description, orgName)
+
+    # Load existing events and check for duplicates
+    all_events = load_events()
+    if any(event["id"] == new_event.eventID for event in all_events):
+        return jsonify({"success": False, "message": "Event with the same ID already exists."}), 400
+
+    # Add the event to the list and save
+    all_events.append(new_event.__dict__)
+    save_events(all_events)
+
+    return jsonify({"success": True, "event": new_event.__dict__})
+
+@app.route('/edit_event', methods=['POST'])
+def edit_event():
+    edited_event = request.json
+    event_id = edited_event.get("id")
+
+    if not event_id:
+        return jsonify({"success": False, "message": "Event ID is required."}), 400
+
+    # Load existing events
+    all_events = load_events()
+
+    # Find the event by ID and update its data
+    for event in all_events:
+        if event["id"] == event_id:
+            event.update(edited_event)
+            save_events(all_events)
+            return jsonify({"success": True, "message": "Event updated successfully."})
+
+    return jsonify({"success": False, "message": "Event not found."}), 404
+
+@app.route('/api/events', methods=['GET'])
+def get_events():
+    try:
+        events = load_events()
+        return jsonify(events)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route('/users')
 def get_users():
     user_type = request.args.get('userType', None)  # Optional filtering by userType
@@ -211,7 +301,8 @@ def get_users():
 
 @app.route('/eventsearch.html')
 def event_search():
-    return render_template('eventsearch.html')  #redirection to eventsearch.html in templates folder
+    user = get_logged_in_user()
+    return render_template('eventsearch.html', logged_in_user = user)  #redirection to eventsearch.html in templates folder
 
 
 if __name__ == '__main__':
