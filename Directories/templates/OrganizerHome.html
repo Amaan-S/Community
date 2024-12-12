@@ -157,7 +157,8 @@
         .form-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            flex-direction: column;
+            gap: 10px;
         }
         .form-container label {
             width: 100%;
@@ -171,6 +172,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 14px;
+
         }
         .textarea-field {
             height: 60px;
@@ -242,7 +244,7 @@
             width: calc(100% / 7);
             height: calc(100% / 6);
         }
-        td {
+        td { /*calbox hover*/
             padding: 2.2em;
             border: 0.5px solid #F8F6F0;
             width: calc(100% / 7);
@@ -388,16 +390,15 @@
 <body>
     <header>
         <div class="header-left">
-            <a href="/usersearch" class="user-search">🔍 User Search</a>
+            <a href="usersearch.html" class="user-search">🔍 User Search</a>
         </div>
         <div class="header-center">CommUnity: Organizer Homepage</div>
         <div class="header-right">
             <a href="eventsearch.html" class="event-search">🔍 Event Search</a>
-            <a href="direction.html" class="logout-box">Logout</a>
+            <a href="signup.html" class="logout-box">Logout</a>
         </div>
     </header>
-
-
+    
     <div class="container">
         <div class="left-side">
             <div class="box">
@@ -430,16 +431,13 @@
                             <label for="vol5">Sophia Green</label>
                         </div>
                         <div class="volunteer-item">
-                            <input type="checkbox" id="vol5">
-                            <label for="vol5">First Last</label>
+                            <input type="checkbox" id="vol6">
+                            <label for="vol6">First Last</label>
                         </div>
-                       
                     </div>
                 </div>
             </div>
-               
-
-
+    
             <!-- Events Manager Section -->
             <div class="box">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -450,64 +448,65 @@
                     </div>
                 </div>
                 <div class="form-container">
-                    <label for="event-name">Event Name</label>
-                    <input type="text" id="event-name" class="input-field" placeholder="Enter event name">
-               
-                    <label for="volunteers-needed">Volunteers Needed</label>
-                    <input type="number" id="volunteers-needed" class="input-field" placeholder="Enter number of volunteers" style="width: 30%;">
-               
-                    <div style="display: flex; gap: 10px;">
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <div style="flex: 1;">
+                            <label for="event-name">Event Name</label>
+                            <input type="text" id="event-name" class="input-field" placeholder="Enter event name" style="width: 70%;">
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="volunteers-needed">Volunteers Needed</label>
+                            <input type="number" id="volunteers-needed" class="input-field" placeholder="Enter number of volunteers" style="width: 45%;">
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; align-items: center;">
                         <div style="flex: 1;">
                             <label for="start-time">Start Time</label>
                             <input type="datetime-local" id="start-time" class="input-field" style="width: 90%;">
                         </div>
                         <div style="flex: 1;">
                             <label for="end-time">End Time</label>
-                            <input type="datetime-local" id="end-time" class="input-field" style="width: 90%;">
+                            <input type="time" id="end-time" class="input-field" style="width: 90%;">
                         </div>
                     </div>
-               
-                    <div style="display: flex; gap: 10px;">
+                    <div style="display: flex; gap: 10px; align-items: center;">
                         <div style="flex: 1;">
-                            <label for="street">Street</label>
-                            <input type="text" id="street" class="input-field" placeholder="Enter street" style="width: 90%;">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" class="input-field" placeholder="Enter address (123 Happy Road, Denton Tx)" style="width: 70%;">
                         </div>
                         <div style="flex: 1;">
-                            <label for="city">City</label>
-                            <input type="text" id="city" class="input-field" placeholder="Enter city" style="width: 90%;">
-                        </div>
-                    </div>
-               
-                    <div style="display: flex; gap: 10px;">
-                        <div style="flex: 1;">
-                            <label for="state">State</label>
-                            <input type="text" id="state" class="input-field" placeholder="Enter state" style="width: 90%;">
-                        </div>
-                        <div style="flex: 1;">
-                            <label for="zip-code">Zip Code</label>
-                            <input type="text" id="zip-code" class="input-field" placeholder="Enter zip code" style="width: 90%;">
+                            <label for="hours-rewarded">Hours Rewarded</label>
+                            <input type="number" id="hours-rewarded" class="input-field" placeholder="Enter hours rewarded" style="width: 37%;">
                         </div>
                     </div>
-               
-                    <label for="event-description">Event Description</label>
-                    <textarea id="event-description" class="textarea-field" placeholder="Enter event description"></textarea>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <div style="flex: 1;">
+                            <label for="event-description">Event Description</label>
+                            <textarea id="event-description" class="textarea-field" placeholder="Enter event description" style="width: 70%;"></textarea>
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="category">Category</label>
+                            <select id="category" class="input-field" style="width: 100%;">
+                                <option value="Community Service">Community Service</option>
+                                <option value="Fairs & Events">Fairs & Events</option>
+                                <option value="Education & Mentorship">Education & Mentorship</option>
+                                <option value="Health & Wellness">Health & Wellness</option>
+                                <option value="Animal Welfare">Animal Welfare</option>
+                                <option value="Religious">Religious</option>
+                                <option value="Miscellaneous">Miscellaneous</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-               
             </div>
         </div>
-
-
+    
         <!-- Events Calendar Section -->
         <div class="right-side">
             <div class="calendar-box">
                 <div class="calendar-title">
-                    <button id = "LookBack">
-                        Back
-                    </button>
+                    <button id="LookBack">Back</button>
                     <span class="calendar-title-text">Events Calendar</span>
-                    <button id = "LookAhead">
-                        Next
-                    </button>
+                    <button id="LookAhead">Next</button>
                 </div>
                 <div class="calendar-container">
                     <div class="calendar-header" id="calendar-header"></div>
@@ -518,6 +517,7 @@
                             <th>Sat</th>
                         </tr>
                     </table>
+                </div>
             </div>
         </div>
     </div>
@@ -622,79 +622,68 @@
 
 <script>
     /*eventlistener for the silly goopy create event and edit event and show applicants section*/
-document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {
     const createEventButton = document.getElementById("create-event-button");
     const editEventButton = document.getElementById("edit-event-button");
-    const volunteerSection = document.querySelector(".circled-box"); // Select the volunteer section
-    let selectedEventBox = null; // To track the currently selected event box for editing
+    const volunteerSection = document.querySelector(".circled-box");
+    let selectedEventBox = null;
 
-
-    // Initially hide the volunteer section
     volunteerSection.style.display = "none";
 
-
-    // Create Event functionality
     createEventButton.addEventListener("click", () => {
-        // Retrieve input values from the form
         const eventName = document.getElementById("event-name").value.trim();
         const startTime = document.getElementById("start-time").value.trim();
         const endTime = document.getElementById("end-time").value.trim();
         const description = document.getElementById("event-description").value.trim();
         const volunteersNeeded = document.getElementById("volunteers-needed").value.trim();
+        const hoursRewarded = document.getElementById("hours-rewarded").value.trim();
+        const category = document.getElementById("category").value;
 
-
-        // Validate input fields
-        if (!eventName || !startTime || !endTime || !description || !volunteersNeeded) {
+        if (!eventName || !startTime || !endTime || !description || !volunteersNeeded || !hoursRewarded || !category) {
             alert("Please fill out all required fields.");
             return;
         }
 
-
-        // Parse the start date to determine the calendar date
         const startDate = new Date(startTime);
         const eventDay = startDate.getDate();
         const eventMonth = startDate.getMonth();
         const eventYear = startDate.getFullYear();
 
-
-        // Check if the event is in the current month and year being displayed
         const displayedMonth = document.querySelector(".calendar-title-text").textContent.split(" ")[0];
         const displayedYear = parseInt(document.querySelector(".calendar-title-text").textContent.split(" ")[1]);
 
+        const displayedMonthIndex = new Date(Date.parse(displayedMonth + " 1, " + displayedYear)).getMonth();
 
-        if (eventMonth !== new Date(Date.parse(displayedMonth + " 1, " + displayedYear)).getMonth() || eventYear !== displayedYear) {
+        if (eventMonth !== displayedMonthIndex || eventYear !== displayedYear) {
             alert("Event date does not match the currently displayed calendar month/year. Please navigate to the correct month.");
             return;
         }
 
-
-        // Find the correct calendar cell
         const calendarCells = document.querySelectorAll("#calendar-table td");
         calendarCells.forEach((cell) => {
             if (parseInt(cell.textContent) === eventDay) {
-                // Create a rounded square for the event
                 const eventSquare = document.createElement("div");
                 eventSquare.textContent = eventName;
                 eventSquare.classList.add("calendar-event-box");
 
-
-                // Store event details in data attributes
                 eventSquare.dataset.name = eventName;
                 eventSquare.dataset.startTime = startTime;
                 eventSquare.dataset.endTime = endTime;
                 eventSquare.dataset.description = description;
                 eventSquare.dataset.volunteersNeeded = volunteersNeeded;
+                eventSquare.dataset.hoursRewarded = hoursRewarded;
+                eventSquare.dataset.category = category;
 
-
-                // Add a hover listener to show event details
                 eventSquare.addEventListener("mouseenter", (e) => {
                     const tooltip = document.createElement("div");
                     tooltip.classList.add("event-tooltip");
                     tooltip.innerHTML = `
                         <strong>${eventSquare.dataset.name}</strong><br>
                         Volunteers Needed: ${eventSquare.dataset.volunteersNeeded}<br>
-                        Start Time: ${new Date(eventSquare.dataset.startTime).toLocaleString()}<br>
-                        End Time: ${new Date(eventSquare.dataset.endTime).toLocaleString()}<br>
+                        Start Time: ${formatTime(eventSquare.dataset.startTime)}<br>
+                        End Time: ${formatTime(eventSquare.dataset.endTime)}<br>
+                        Hours Rewarded: ${eventSquare.dataset.hoursRewarded}<br>
+                        Category: ${eventSquare.dataset.category}<br>
                         Description: ${eventSquare.dataset.description}
                     `;
                     tooltip.style.position = "absolute";
@@ -705,98 +694,76 @@ document.addEventListener("DOMContentLoaded", () => {
                     tooltip.style.boxShadow = "0 2px 5px rgba(0,0,0,0.2)";
                     tooltip.style.zIndex = 1000;
 
-
                     document.body.appendChild(tooltip);
 
-
-                    // Position the tooltip near the event
                     const rect = e.target.getBoundingClientRect();
                     tooltip.style.left = `${rect.right + 10}px`;
                     tooltip.style.top = `${rect.top}px`;
 
-
                     eventSquare.dataset.tooltip = tooltip;
                 });
-
 
                 eventSquare.addEventListener("mouseleave", () => {
                     const tooltip = document.querySelector(".event-tooltip");
                     if (tooltip) tooltip.remove();
                 });
 
-
-                // Add a click event listener to populate the form with event details
                 eventSquare.addEventListener("click", () => {
                     document.getElementById("event-name").value = eventSquare.dataset.name;
                     document.getElementById("start-time").value = eventSquare.dataset.startTime;
                     document.getElementById("end-time").value = eventSquare.dataset.endTime;
                     document.getElementById("event-description").value = eventSquare.dataset.description;
                     document.getElementById("volunteers-needed").value = eventSquare.dataset.volunteersNeeded;
+                    document.getElementById("hours-rewarded").value = eventSquare.dataset.hoursRewarded;
+                    document.getElementById("category").value = eventSquare.dataset.category;
 
+                    selectedEventBox = eventSquare;
 
-                    selectedEventBox = eventSquare; // Set the selected event box for editing
-
-
-                    // Show the volunteer section during editing
                     volunteerSection.style.display = "block";
                 });
 
-
-                // Add the event square to the cell
                 cell.appendChild(eventSquare);
             }
         });
 
-
-        // Clear the input fields after adding the event
         clearEventInputs();
     });
 
-
-    // Edit Event functionality
     editEventButton.addEventListener("click", () => {
-        // Ensure there is a selected event box to edit
         if (!selectedEventBox) {
             alert("Please select an event to edit.");
             return;
         }
 
-
-        // Retrieve updated input values from the form
         const updatedEventName = document.getElementById("event-name").value.trim();
         const updatedStartTime = document.getElementById("start-time").value.trim();
         const updatedEndTime = document.getElementById("end-time").value.trim();
         const updatedDescription = document.getElementById("event-description").value.trim();
         const updatedVolunteersNeeded = document.getElementById("volunteers-needed").value.trim();
+        const updatedHoursRewarded = document.getElementById("hours-rewarded").value.trim();
+        const updatedCategory = document.getElementById("category").value;
 
-
-        // Validate input fields
-        if (!updatedEventName || !updatedStartTime || !updatedEndTime || !updatedDescription || !updatedVolunteersNeeded) {
+        if (!updatedEventName || !updatedStartTime || !updatedEndTime || !updatedDescription || !updatedVolunteersNeeded || !updatedHoursRewarded || !updatedCategory) {
             alert("Please fill out all required fields.");
             return;
         }
 
-
-        // Update the selected event box details
         selectedEventBox.textContent = updatedEventName;
         selectedEventBox.dataset.name = updatedEventName;
         selectedEventBox.dataset.startTime = updatedStartTime;
         selectedEventBox.dataset.endTime = updatedEndTime;
         selectedEventBox.dataset.description = updatedDescription;
         selectedEventBox.dataset.volunteersNeeded = updatedVolunteersNeeded;
-
+        selectedEventBox.dataset.hoursRewarded = updatedHoursRewarded;
+        selectedEventBox.dataset.category = updatedCategory;
 
         alert(`Event updated: ${updatedEventName}`);
 
-
-        // Hide the volunteer section after editing
         volunteerSection.style.display = "none";
-
 
         selectedEventBox = null;
         clearEventInputs();
     });
-
 
     function clearEventInputs() {
         document.getElementById("event-name").value = "";
@@ -804,6 +771,15 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("end-time").value = "";
         document.getElementById("event-description").value = "";
         document.getElementById("volunteers-needed").value = "";
+        document.getElementById("hours-rewarded").value = "";
+        document.getElementById("category").value = "";
+    }
+
+    function formatTime(time) {
+        const [hours, minutes] = time.split(':');
+        const period = hours >= 12 ? 'PM' : 'AM';
+        const formattedHours = hours % 12 || 12;
+        return `${formattedHours}:${minutes} ${period}`;
     }
 });
 
