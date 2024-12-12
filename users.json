@@ -274,8 +274,8 @@
             "Community Service",
             "Education & Mentorship"
         ],
-        "hours": 486,
-        "history": []
+        "hours": 12,
+        "history": ["Library", "Church"]
     },
     {
         "userType": 0,
