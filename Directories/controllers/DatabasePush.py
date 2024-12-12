@@ -188,6 +188,12 @@ def update_database_from_json():
                 push_attributes_organizer(organizer_instance)
 
     if events_data:
-        for event in events_data.get("events", []):
-            event_instance = Events(**event)
-            push_attributes_events(event_instance)
+        if isinstance(events_data, dict):
+            for event in events_data.get("events", []):
+                # process each event
+        elif isinstance(events_data, list):
+            for event in events_data:
+                # process each event if events_data is a list
+        else:
+            print("Unexpected data format for events_data:", type(events_data))
+
