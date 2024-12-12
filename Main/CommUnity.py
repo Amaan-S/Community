@@ -1,6 +1,6 @@
 import json
 from flask import Flask, render_template, request, redirect, session, jsonify
-from Directories.controllers.user import Event, Organizer
+from Directories.controllers.user import Events, Organizer
 import os
 import sys
 from flask_session import Session
