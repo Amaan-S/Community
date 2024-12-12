@@ -288,11 +288,5 @@ def get_users():
 
     return jsonify(users)
 
-@app.route('/eventsearch.html')
-def event_search():
-    user = get_logged_in_user()
-    return render_template('eventsearch.html', logged_in_user = user)  #redirection to eventsearch.html in templates folder
-
-
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=False)
