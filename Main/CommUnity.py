@@ -185,23 +185,23 @@ def get_events():
         return jsonify({"error": "Events file not found"}), 404
 
 
-#@app.route('/eventsearch', methods=['GET', 'POST'])
-#def event_search():
- #   logged_in_user = None
-  #  if 'username' in session:
-        # Load users from JSON
-   #     try:
-    #        with open(file_path, 'r') as file:
-     #           users = json.load(file)
-      #  except (FileNotFoundError, json.JSONDecodeError):
-       #     users = []
+@app.route('/eventsearch', methods=['GET', 'POST'])
+def event_search():
+    logged_in_user = None
+    if 'username' in session:
+         Load users from JSON
+        try:
+            with open(file_path, 'r') as file:
+                users = json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError):
+            users = []
 
-        # Find the logged-in user
-#        logged_in_user = next((u for u in users if u.get('username') == session['username']), None)
+         Find the logged-in user
+        logged_in_user = next((u for u in users if u.get('username') == session['username']), None)
 
-    # Render eventsearch.html with logged-in user data
- #   return render_template('eventsearch.html', logged_in_user=logged_in_user)
- #  */ 
+     Render eventsearch.html with logged-in user data
+    return render_template('eventsearch.html', logged_in_user=logged_in_user)
+    
 
 # Function to load all events
 def load_events():
