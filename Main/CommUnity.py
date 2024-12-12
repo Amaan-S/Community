@@ -173,7 +173,7 @@ def user_search():
     return render_template('usersearch.html', logged_in_user=logged_in_user)
 
 
-@app.route('/eventsearch', methods=['GET', 'POST'])
+@app.route('/eventsearch.html', methods=['GET', 'POST'])
 def event_search():
     logged_in_user = None
     if 'username' in session:
@@ -196,6 +196,8 @@ def event_search():
 def load_events():
     if not os.path.exists(events_file):
         print("all_events.json not found. Initializing an empty events list.")
+        with open(events_file, 'w') as file:
+            json.dump([], file)  # Initialize with an empty list
         return []
     try:
         with open(events_file, 'r') as file:
