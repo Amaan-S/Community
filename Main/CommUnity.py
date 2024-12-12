@@ -189,18 +189,19 @@ def get_events():
 def event_search():
     logged_in_user = None
     if 'username' in session:
-         Load users from JSON
+        # Load users from JSON
         try:
-            with open(file_path, 'r') as file:
-                users = json.load(file)
-        except (FileNotFoundError, json.JSONDecodeError):
+            users = load_users()
+        except Exception as e:
             users = []
+            print(f"Error loading users: {e}")
 
-         Find the logged-in user
+        # Find the logged-in user
         logged_in_user = next((u for u in users if u.get('username') == session['username']), None)
 
-     Render eventsearch.html with logged-in user data
+    # Render eventsearch.html with logged-in user data
     return render_template('eventsearch.html', logged_in_user=logged_in_user)
+
     
 
 # Function to load all events
