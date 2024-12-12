@@ -198,6 +198,17 @@ def get_events():
     # Render eventsearch.html with logged-in user data
  #   return render_template('eventsearch.html', logged_in_user=logged_in_user)
  #  */ 
+
+@app.route('/users')
+def get_users():
+    user_type = request.args.get('userType', None)  # Optional filtering by userType
+    users = load_users()
+
+    if user_type is not None:
+        users = [user for user in users if user['userType'] == int(user_type)]
+
+    return jsonify(users)
+
 @app.route('/eventsearch.html')
 def event_search():
     return render_template('eventsearch.html')  #redirection to eventsearch.html in templates folder
