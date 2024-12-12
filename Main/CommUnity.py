@@ -1,8 +1,8 @@
 import json
 from flask import Flask, render_template, request, redirect, session, jsonify
 from Directories.controllers.user import User, Volunteer, Organizer, Events
-from Directories.controllers.DatabasePush import update_database_from_json
-from Directories.controllers.PopulateData_json import fetch_all_data, update_json_file
+#from Directories.controllers.DatabasePush import update_database_from_json
+#from Directories.controllers.PopulateData_json import fetch_all_data, update_json_file
 import os
 import sys
 from flask_session import Session
@@ -23,13 +23,13 @@ events_file = os.path.join(project_root, 'all_events.json')
 
 
 # Synchronize JSON data to the database
-update_database_from_json()
+#update_database_from_json()
 
 # Fetch all data from the database
-user_data, volunteer_data, organizer_data, event_data = fetch_all_data()
+#user_data, volunteer_data, organizer_data, event_data = fetch_all_data()
 
 # Update JSON file with fetched data
-update_json_file('users.json', user_data, volunteer_data, organizer_data, event_data)
+#update_json_file('users.json', user_data, volunteer_data, organizer_data, event_data)
 
 
 app = Flask(__name__, template_folder='../Directories/templates')
