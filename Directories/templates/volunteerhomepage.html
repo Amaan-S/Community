@@ -284,6 +284,20 @@
             transition: background-color 0.2s ease;
             background-color: LightGray
         }
+        .calendar-event-box {
+            /*attributes for the event title on the calendar*/
+        margin-top: 5px;
+        padding: 8px;
+        background-color: #98FB98;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: bold;
+        color: black;
+        text-align: center;
+        border: 1px solid black;
+        position: absolute;
+        margin-top: -1px;
+        }
 
         td:hover {
             background-color: #5dade2;  /*color that the box will change to upon hovering*/
@@ -420,24 +434,7 @@
                     </div>
                 </div>
             </div>
-            <div class="box">
-                <button class="signup-btn">Signup</button>
-                <h3>My Events</h3>
-                <div class="events-box">
-                    {% for event in user.events %}
-                    <div class="event-background">
-                        <div class="event-item">
-                            <label>
-                                <input type="checkbox">
-                                {{ event.name }}: {{ event.time }}
-                            </label>
-                            <p>{{ event.volunteers_needed }} Volunteers still needed.</p>
-                            <p>{{ event.description }}</p>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
+            
         </div>
 
         <div class="right-side">                    <!--Start of Calendar integration into the webpage-->
@@ -467,88 +464,164 @@
 
     <!-- Javascript code for the functionality of the calendar -->
     <script>
-        //start of Javascript code
-    function Gen_myCalendar(){
-        // Get today's date (uses JavaScript date objects)
-        const today = new Date();
+        async function Gen_myCalendar() {
+    const today = new Date();
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
 
-        //Month Names
-        const monthNames = ["January", "February", "March",
-                            "April", "May", "June",
-                            "July", "August", "September",
-                            "October", "November", "December"];
+    let currentMonth = today.getMonth();
+    let currentYear = today.getFullYear();
+    let events = [];
 
-        // Get the current month and year and allow them to be changeable
-        let currentMonth = today.getMonth();
-        let currentYear = today.getFullYear();
-
-        function CalendarGen(month,year){
-            // Get the number of days in the current month and year
-            var daysInMonth = new Date(year, month + 1, 0).getDate();
-
-            // Get the day of the week for the first day of the month
-            var firstDay = (new Date(year, month, 1)).getDay();
-
-            // Set the calendar title to the current month and year
-            document.querySelector('.calendar-title-text').textContent = `${monthNames[month]} ${year}`;
-            
-            // Clear previous calendar content to avoid accidentally appending the data
-            const calendarTable = document.getElementById('calendar-table');
-            calendarTable.innerHTML = '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>';
-            
-            // Create the calendar table
-            let date = 1;
-                for (let i = 0; i < 6; i++) { // 6 rows (max needed for a month view)
-                    let row = document.createElement('tr');
-
-                    // Create 7 columns (days of the week)
-                    for (let j = 0; j < 7; j++) {
-                        let cell = document.createElement('td');
-                        if (i === 0 && j < firstDay) {
-                            // Empty cells before the first day of the month
-                            cell.innerHTML = "";                  
-                            cell.classList.add('empty-cell');       //Add an empty cell to the calendar
-                        } else if (date > daysInMonth) {
-                            // Empty cells after the last day of the month
-                            cell.innerHTML = "";
-                            cell.classList.add('empty-cell');       //Add an empty cell to the calendar
-                        } else {
-                            // Fill with dates
-                            cell.innerHTML = date;
-                            date++;
-                        }
-                        row.appendChild(cell);
-                    }
-
-                    // Append the row to the calendar table
-                    document.getElementById('calendar-table').appendChild(row);
-                }
+    // Fetch events from JSON file
+    async function fetchEvents() {
+        try {
+            const response = await fetch('all_events.json'); // Path to your JSON file
+            const data = await response.json();
+            events = data.map(event => ({
+                name: event.name,
+                date: new Date(event.date), // Convert the date string to a Date object
+                start_time: event.start_time,
+                end_time: event.end_time,
+                address: event.address,
+                description: event.description,
+                eventVolunteers: event.eventVolunteers,
+                hoursReward: event.hoursReward,
+                category: event.category
+            }));
+        } catch (error) {
+            console.error("Error fetching events:", error);
         }
-
-        CalendarGen(currentMonth,currentYear);              //initial generation of calendar that is the current month and year
-    
-        document.getElementById('LookBack').addEventListener('click', () => {   //upon clicking LookBack button 
-            currentMonth--;     //decrease the month
-            if(currentMonth < 0){           //check to make sure that decreasing the month is nonnegative
-                currentMonth = 11;  //if negative, set the month to december
-                currentYear--;          //decease the year
-            }
-            CalendarGen(currentMonth, currentYear);         //regenerate the updated calendar
-        });
-
-        document.getElementById('LookAhead').addEventListener('click', () => {         //upon clicking nextMonth button
-            currentMonth++;      //increase the month
-            if(currentMonth > 11){           //check to make sure that increasing the month does not exceed 11
-                currentMonth = 0;  //if it does, set the month to January
-                currentYear++;          //increase the year
-            }
-            CalendarGen(currentMonth, currentYear);         //regenerate the updated calendar
-        });
     }
 
-    // Call the function to generate the calendar when the page loads
-    window.onload = Gen_myCalendar;
-        
+    function CalendarGen(month, year) {
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const firstDay = (new Date(year, month, 1)).getDay();
+
+        document.querySelector('.calendar-title-text').textContent = `${monthNames[month]} ${year}`;
+
+        const calendarTable = document.getElementById('calendar-table');
+        calendarTable.innerHTML = '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>';
+
+        let date = 1;
+        for (let i = 0; i < 6; i++) {
+            const row = document.createElement('tr');
+
+            for (let j = 0; j < 7; j++) {
+                const cell = document.createElement('td');
+                if (i === 0 && j < firstDay) {
+                    cell.innerHTML = "";
+                    cell.classList.add('empty-cell');
+                } else if (date > daysInMonth) {
+                    cell.innerHTML = "";
+                    cell.classList.add('empty-cell');
+                } else {
+                    cell.innerHTML = date;
+
+                    const eventDate = new Date(year, month, date);
+                    events.forEach(event => {
+                        if (
+                            event.date.getDate() === eventDate.getDate() &&
+                            event.date.getMonth() === eventDate.getMonth() &&
+                            event.date.getFullYear() === eventDate.getFullYear()
+                        ) {
+                            const eventBox = document.createElement('div');
+                            eventBox.textContent = event.name;
+                            eventBox.classList.add('calendar-event-box');
+                            addHoverListener(eventBox, event);
+                            cell.appendChild(eventBox);
+                        }
+                    });
+
+                    date++;
+                }
+                row.appendChild(cell);
+            }
+
+            calendarTable.appendChild(row);
+        }
+    }
+
+    function addHoverListener(element, event) {
+    element.addEventListener("mouseenter", (e) => {
+        const tooltip = document.createElement("div");
+        tooltip.classList.add("event-tooltip");
+        tooltip.innerHTML = `
+            <strong>${event.name}</strong><br>
+            <strong>Date:</strong> ${event.date.toISOString().split("T")[0]}<br>
+            <strong>Start Time:</strong> ${event.start_time}<br>
+            <strong>End Time:</strong> ${event.end_time}<br>
+            <strong>Address:</strong> ${event.address}<br>
+            <strong>Description:</strong> ${event.description}<br>
+            <strong>Hours Rewarded:</strong> ${event.hoursReward}<br>
+            <strong>Category:</strong> ${event.category}
+        `;
+        tooltip.style.position = "absolute";
+        tooltip.style.background = "#fff";
+        tooltip.style.border = "1px solid #ccc";
+        tooltip.style.borderRadius = "5px";
+        tooltip.style.padding = "10px";
+        tooltip.style.boxShadow = "0 2px 5px rgba(0,0,0,0.2)";
+        tooltip.style.zIndex = 1000;
+        tooltip.style.width = "200px";
+        tooltip.style.textAlign = "left";
+
+        document.body.appendChild(tooltip);
+
+        const rect = e.target.getBoundingClientRect();
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const screenWidth = window.innerWidth;
+
+        if (rect.right + tooltipRect.width + 10 > screenWidth) {
+            tooltip.style.left = `${rect.left - tooltipRect.width - 10}px`;
+        } else {
+            tooltip.style.left = `${rect.right + 10}px`;
+        }
+
+        tooltip.style.top = `${rect.top}px`;
+
+        element.dataset.tooltip = tooltip;
+    });
+
+    element.addEventListener("mouseleave", () => {
+        const tooltip = document.querySelector(".event-tooltip");
+        if (tooltip) tooltip.remove();
+    });
+}
+
+
+
+    await fetchEvents(); // Load events from JSON before generating the calendar
+    CalendarGen(currentMonth, currentYear);
+
+    document.getElementById('LookBack').addEventListener('click', () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        CalendarGen(currentMonth, currentYear);
+    });
+
+    document.getElementById('LookAhead').addEventListener('click', () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        CalendarGen(currentMonth, currentYear);
+    });
+}
+
+window.onload = Gen_myCalendar;
+</script>
+
     </script>
+    
+
+    
+    
 </body>
 </html>
