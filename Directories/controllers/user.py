@@ -87,10 +87,11 @@ class Volunteer(User):
 
 
 class Organizer(User): 
-    def __init__(self, userType, userID, email, joinDate, username, password, orgName, events = None):
+    def __init__(self, userType, userID, email, joinDate, username, password, orgName, events = None, address = None):
         super().__init__(userType, userID, email, joinDate, username, password)
         self.orgName = orgName
         self.events = events if events is not None else []
+        self.address = address
 
     def add_event(self, name, date, start_time, end_time, address, category, vAmount, hoursReward, description):
         event = Events(name, date, start_time, end_time, address, category, vAmount, hoursReward, description, orgName=self.orgName)
