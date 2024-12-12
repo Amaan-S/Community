@@ -2,97 +2,131 @@ import os
 import json
 from dotenv import load_dotenv
 from user import User, Volunteer, Organizer, Events
-from your_module import db_connection, fetch_attributes_user, fetch_attributes_volunteer, fetch_attributes_organizer
-
-load_dotenv()
+from DatabasePull import db_connection, fetch_attributes_user, fetch_attributes_volunteer, fetch_attributes_organizer, fetch_attributes_events
 
 def fetch_all_data():
     # Fetch user data using fetch
-    user_instance = User(userType=None, userID=None, email=None, joinDate=None, username=None, password=None)
-    user_data = fetch_attributes_user(user_instance)
+    user_data = fetch_attributes_user()
 
     # Fetch volunteer data
-    volunteer_instance = Volunteer(userType=None, userID=None, email=None, joinDate=None, username=None, password=None, firstName=None, lastName=None, DOB=None)
-    volunteer_data = fetch_attributes_volunteer(volunteer_instance)
+    volunteer_data = fetch_attributes_volunteer()
 
     # Fetch organizer data
-    organizer_instance = Organizer(userType=None, userID=None, email=None, joinDate=None, username=None, password=None, orgName=None)
-    organizer_data = fetch_attributes_organizer(organizer_instance)
+    organizer_data = fetch_attributes_organizer()
+    
+    # Fetch events data
+    event_data = fetch_attributes_events()
 
-    return user_data, volunteer_data, organizer_data
+    return user_data, volunteer_data, organizer_data, event_data            #return all the data recieved from the database
 
-'''
 
-def update_json_file(file_path, user_data, volunteer_data, organizer_data):
+def update_json_file(file_path, user_data, volunteer_data, organizer_data, event_data):
+    
+    # Load existing users.json data
     try:
-        with open(file_path, 'r') as file:
-            existing_data = json.load(file)
+        with open('users.json', 'r') as file:          #open json file for reading
+            existing_data_users = json.load(file)
     except FileNotFoundError:
-        existing_data = []
+        existing_data_users = []
+
+
+    # Load existing events.json data
+    try:
+        with open('all_events.json', 'r') as file:
+            existing_events_data = json.load(file)
+    except FileNotFoundError:
+        existing_events_data = {"events": []}
+    
+    
+    
+    v_index = 0 #index for the volunteer data
+    o_index = 0 #index for the organizer data
+    
+    volunteers = [] # list to hold the volunteer profiles
+    organizers = [] # list to hold the organizer profiles
+    events = []     # list to hold the event profiles
+    
+    
+    # Transform data into JSON format and ensure that the data is assigned correctly to a user or volunteer
+    for user in user_data:
+        if user.userType == 0:  # Volunteer
+            if v_index < len(volunteer_data):               #populate up until the number of volunteers
+                vol_data = volunteer_data[v_index]          #assign the user data for one indexed volunteer to vol_data
+                volunteer = Volunteer(
+                    userType = user.userType,       #start populating data from the base user class
+                    userID = user.userID,
+                    email = user.email,
+                    joinDate = user.joinDate,
+                    username = user.username,
+                    password = user.password,
+                    firstName = vol_data["firstName"],      #start building the rest of the volunteer data
+                    lastName = vol_data["lastName"],
+                    DOB = vol_data["DOB"],
+                    location = vol_data.get("location"),
+                    gender = vol_data.get("gender"),
+                    preferredCats = vol_data.get("preferredCats", []),
+                    hours = vol_data.get("hours", 0),
+                    history = vol_data.get("history", [])
+                )
+                volunteers.append(volunteer.to_dict())
+                v_index += 1        #increment the index of the volunteer
+
+        elif user.userType == 1:  # Organizer
+            if o_index < len(organizer_data):
+                org_data = organizer_data[o_index]      #assign the user data for one indexed organizer to org_data
+                organizer = Organizer(
+                    userType=user.userType,         #start populating data form the base user class
+                    userID=user.userID,
+                    email=user.email,
+                    joinDate=user.joinDate,
+                    username=user.username,
+                    password=user.password,
+                    orgName=org_data["orgName"],            #start building the rest of the organizer data
+                    events=org_data.get("events", []),
+                    address=org_data.get("address", {})
+                )
+                organizers.append(organizer.to_dict())
+                o_index += 1
+                
+    total = volunteers + organizers   
+                
+    # Avoid duplicates in users.json
+    existing_user_ids = {entry["userID"] for entry in existing_data_users}                              #check to see what userIDs currently exist in users.json
+    updated_users_data = existing_data_users + [user for user in total if user["userID"] not in existing_user_ids]
         
-    # Transform data into JSON format
-    user_json = {                                  #populate data for the user base class instances
-        "firstName": user_data.username,  # Assuming username is used as firstName
-        "lastName": "",  # Add logic to fetch lastName if available
-        "email": user_data.email,
-        "DOB": "",  # Add logic to fetch DOB if available
-        "joinDate": user_data.joinDate,
-        "gender": "",  # Add logic to fetch gender if available
-        "userID": user_data.userID,
-        "hours": 0,  # Add logic to fetch hours if available
-        "history": [],  # Add logic to fetch history if available
-        "username": user_data.username,
-        "password": user_data.password,
-        #populate the fields of the user base class
-        "userType": user_data.userType,
-        "userID": user_data.userID,
-        "username": user_data.username,
-        "password": user_data.password,
-        "email": user_data.email,
-        "joinDate": user_data.joinDate,
-        "orgName": "Jihad Company2",
-        "events": [],
-        "address": {
-            "street": "300 Laurel Lane",
-            "city": "Euless",
-            "state": "TX",
-            "zipCode": "76039
+                
+    # Transform data into JSON format and ensure that the data is assigned correctly to events
+    for event in event_data:
+        event_instance = {
+            "eventID" : event["eventID"],
+            "Name" : event["Name"],
+            "date" : event["date"],
+            "start_time" : event["start_time"],
+            "end_time" : event["end_time"],
+            "address" : event["address"],
+            "category" : event["category"],
+            "vAmount" : event["vAmount"],
+            "hoursReward" : event["hoursReward"],
+            "description" : event["description"],
+            "orgName" : event["orgName"],
+            "eventApplicants" : event.get("eventApplicants", []),
+            "eventVolunteers" : event.get("eventVolunteers", []),
+            "attendenceAccounted" : event.get("attendenceAccounted", False),
+            "hoursDeadline" : event["hoursDeadline"]
         }
-    }
+        events.append(event_instance)           #add event instance to the total collection of events from the database
 
-    volunteer_json = {
-        "role": "volunteer",
-        "username": volunteer_data.username,
-        "password": volunteer_data.password,
-        "first_name": volunteer_data.firstName,
-        "last_name": volunteer_data.lastName,
-        "email": volunteer_data.email,
-        "gender": volunteer_data.gender,
-        "dob": volunteer_data.DOB,
-        "zipcode": volunteer_data.location  # Assuming location is used as zipcode
-    }
+    # Avoid duplicates in events.json
+    existing_event_ids = {event["eventID"] for event in existing_events_data["events"]}         #log events currently in the json file
+    updated_events_data = existing_events_data              
+    updated_events_data["events"].extend([                  
+        event for event in events if event["eventID"] not in existing_event_ids
+    ])
 
-    organizer_json = {
-        "role": "organizer",
-        "username": organizer_data.username,
-        "password": organizer_data.password,
-        "organization_name": organizer_data.orgName,
-        "email": organizer_data.email,
-        "address": {}  # Add logic to fetch address if available
-    }
+    # Write users.json
+    with open('users.json', 'w') as file:
+        json.dump(updated_users_data, file, indent=4)
 
-
-'''
-
-    # Update existing data
-    existing_data.extend([user_json, volunteer_json, organizer_json])
-
-    with open(file_path, 'w') as file:
-        json.dump(existing_data, file, indent=4)
-
-def main():
-    user_data, volunteer_data, organizer_data = fetch_all_data()
-    update_json_file('users.json', user_data, volunteer_data, organizer_data)
-
-if __name__ == "__main__":
-    main()
+    # Write all_events.json
+    with open('all_events.json', 'w') as file:
+        json.dump(updated_events_data, file, indent=4)
