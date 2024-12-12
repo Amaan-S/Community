@@ -722,186 +722,184 @@
         });
     
         window.onload = Gen_myCalendar;
-    </script>
      
             document.addEventListener("DOMContentLoaded", () => {
-    const createEventButton = document.getElementById("create-event-button");
-    const editEventButton = document.getElementById("edit-event-button");
-    const volunteerSection = document.querySelector(".circled-box");
-    let selectedEventBox = null;
-
-    volunteerSection.style.display = "none";
-
-    // Helper function to clear input fields
-    function clearEventInputs() {
-        document.getElementById("event-name").value = "";
-        document.getElementById("start-time").value = "";
-        document.getElementById("end-time").value = "";
-        document.getElementById("event-description").value = "";
-        document.getElementById("volunteers-needed").value = "";
-        document.getElementById("hours-rewarded").value = "";
-        document.getElementById("category").value = "";
-        document.getElementById("address").value = "";
-    }
-
-    // Helper function to populate the event form with event data
-    function populateEventManager(event) {
-        document.getElementById("event-name").value = event.name;
-        document.getElementById("start-time").value = event.start_time;
-        document.getElementById("end-time").value = event.end_time;
-        document.getElementById("event-description").value = event.description;
-        document.getElementById("volunteers-needed").value = event.volunteers_needed;
-        document.getElementById("hours-rewarded").value = event.hours_rewarded;
-        document.getElementById("category").value = event.category;
-        document.getElementById("address").value = event.address;
-
-        selectedEventBox = document.querySelector(`[data-event-id="${event.id}"]`);
-    }
-
-    // Event listener for creating a new event
-    createEventButton.addEventListener("click", () => {
-        const name = document.getElementById("event-name").value.trim() || "Untitled Event";
-        const startTime = document.getElementById("start-time").value.trim() || "00:00";
-        const endTime = document.getElementById("end-time").value.trim() || "00:00";
-        const description = document.getElementById("event-description").value.trim() || "No Description";
-        const volunteersNeeded = parseInt(document.getElementById("volunteers-needed").value) || 0;
-        const hoursRewarded = parseFloat(document.getElementById("hours-rewarded").value) || 0;
-        const category = document.getElementById("category").value || "Miscellaneous";
-        const address = document.getElementById("address").value.trim() || "No Address";
-        const dateInput = document.getElementById("start-time").value.split("T")[0];
-        const date = dateInput || new Date().toISOString().split("T")[0];
-
-        // Validate input
-        if (!name || !date || !startTime || !endTime || !address || !category) {
-            alert("Please fill out all required fields.");
-            return;
-        }
-
-        // Prepare event data
-        const event = {
-            name,
-            date,
-            start_time: startTime,
-            end_time: endTime,
-            description,
-            volunteers_needed: volunteersNeeded,
-            hours_rewarded: hoursRewarded,
-            category,
-            address,
-        };
-
-        // Send the event data to the backend for creation
-        fetch('/create_event', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(event)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert(`Event "${data.event.name}" created successfully.`);
-                location.reload(); // Reload the page to reflect changes
-            } else {
-                alert(`Failed to create event: ${data.message}`);
+            const createEventButton = document.getElementById("create-event-button");
+            const editEventButton = document.getElementById("edit-event-button");
+            const volunteerSection = document.querySelector(".circled-box");
+            let selectedEventBox = null;
+        
+            volunteerSection.style.display = "none";
+        
+            // Helper function to clear input fields
+            function clearEventInputs() {
+                document.getElementById("event-name").value = "";
+                document.getElementById("start-time").value = "";
+                document.getElementById("end-time").value = "";
+                document.getElementById("event-description").value = "";
+                document.getElementById("volunteers-needed").value = "";
+                document.getElementById("hours-rewarded").value = "";
+                document.getElementById("category").value = "";
+                document.getElementById("address").value = "";
             }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("An error occurred while creating the event.");
-        });
-    });
-
-    // Event listener for editing an existing event
-    editEventButton.addEventListener("click", () => {
-        if (!selectedEventBox) {
-            alert("Please select an event to edit.");
-            return;
-        }
-
-        // Get updated values from the form
-        const updatedEvent = {
-            id: selectedEventBox.dataset.eventId,
-            name: document.getElementById("event-name").value.trim(),
-            start_time: document.getElementById("start-time").value.trim(),
-            end_time: document.getElementById("end-time").value.trim(),
-            description: document.getElementById("event-description").value.trim(),
-            volunteers_needed: parseInt(document.getElementById("volunteers-needed").value) || 0,
-            hours_rewarded: parseFloat(document.getElementById("hours-rewarded").value) || 0,
-            category: document.getElementById("category").value,
-            address: document.getElementById("address").value.trim(),
-            date: document.getElementById("start-time").value.split("T")[0],
-        };
-
-        // Validate input
-        if (!updatedEvent.name || !updatedEvent.start_time || !updatedEvent.end_time || !updatedEvent.description || !updatedEvent.category || !updatedEvent.address) {
-            alert("Please fill out all fields before saving.");
-            return;
-        }
-
-        // Send the updated event data to the backend
-        fetch('/edit_event', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updatedEvent)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert(`Event "${updatedEvent.name}" updated successfully.`);
-                location.reload(); // Reload to reflect changes
-            } else {
-                alert(`Failed to update event: ${data.message}`);
+        
+            // Helper function to populate the event form with event data
+            function populateEventManager(event) {
+                document.getElementById("event-name").value = event.name;
+                document.getElementById("start-time").value = event.start_time;
+                document.getElementById("end-time").value = event.end_time;
+                document.getElementById("event-description").value = event.description;
+                document.getElementById("volunteers-needed").value = event.volunteers_needed;
+                document.getElementById("hours-rewarded").value = event.hours_rewarded;
+                document.getElementById("category").value = event.category;
+                document.getElementById("address").value = event.address;
+        
+                selectedEventBox = document.querySelector(`[data-event-id="${event.id}"]`);
             }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("An error occurred while updating the event.");
+        
+            // Event listener for creating a new event
+            createEventButton.addEventListener("click", () => {
+                const name = document.getElementById("event-name").value.trim() || "Untitled Event";
+                const startTime = document.getElementById("start-time").value.trim() || "00:00";
+                const endTime = document.getElementById("end-time").value.trim() || "00:00";
+                const description = document.getElementById("event-description").value.trim() || "No Description";
+                const volunteersNeeded = parseInt(document.getElementById("volunteers-needed").value) || 0;
+                const hoursRewarded = parseFloat(document.getElementById("hours-rewarded").value) || 0;
+                const category = document.getElementById("category").value || "Miscellaneous";
+                const address = document.getElementById("address").value.trim() || "No Address";
+                const dateInput = document.getElementById("start-time").value.split("T")[0];
+                const date = dateInput || new Date().toISOString().split("T")[0];
+        
+                // Validate input
+                if (!name || !date || !startTime || !endTime || !address || !category) {
+                    alert("Please fill out all required fields.");
+                    return;
+                }
+        
+                // Prepare event data
+                const event = {
+                    name,
+                    date,
+                    start_time: startTime,
+                    end_time: endTime,
+                    description,
+                    volunteers_needed: volunteersNeeded,
+                    hours_rewarded: hoursRewarded,
+                    category,
+                    address,
+                };
+        
+                // Send the event data to the backend for creation
+                fetch('/create_event', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(event)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`Event "${data.event.name}" created successfully.`);
+                        location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert(`Failed to create event: ${data.message}`);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while creating the event.");
+                });
+            });
+        
+            // Event listener for editing an existing event
+            editEventButton.addEventListener("click", () => {
+                if (!selectedEventBox) {
+                    alert("Please select an event to edit.");
+                    return;
+                }
+        
+                // Get updated values from the form
+                const updatedEvent = {
+                    id: selectedEventBox.dataset.eventId,
+                    name: document.getElementById("event-name").value.trim(),
+                    start_time: document.getElementById("start-time").value.trim(),
+                    end_time: document.getElementById("end-time").value.trim(),
+                    description: document.getElementById("event-description").value.trim(),
+                    volunteers_needed: parseInt(document.getElementById("volunteers-needed").value) || 0,
+                    hours_rewarded: parseFloat(document.getElementById("hours-rewarded").value) || 0,
+                    category: document.getElementById("category").value,
+                    address: document.getElementById("address").value.trim(),
+                    date: document.getElementById("start-time").value.split("T")[0],
+                };
+        
+                // Validate input
+                if (!updatedEvent.name || !updatedEvent.start_time || !updatedEvent.end_time || !updatedEvent.description || !updatedEvent.category || !updatedEvent.address) {
+                    alert("Please fill out all fields before saving.");
+                    return;
+                }
+        
+                // Send the updated event data to the backend
+                fetch('/edit_event', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedEvent)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`Event "${updatedEvent.name}" updated successfully.`);
+                        location.reload(); // Reload to reflect changes
+                    } else {
+                        alert(`Failed to update event: ${data.message}`);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while updating the event.");
+                });
+            });
+        
+            // Helper function to add hover functionality to event elements
+            function addHoverListener(element, event) {
+                element.addEventListener("mouseenter", (e) => {
+                    const tooltip = document.createElement("div");
+                    tooltip.classList.add("event-tooltip");
+                    tooltip.innerHTML = `
+                        <strong>${event.name}</strong><br>
+                        <strong>Date:</strong> ${event.date}<br>
+                        <strong>Start Time:</strong> ${event.start_time}<br>
+                        <strong>End Time:</strong> ${event.end_time}<br>
+                        <strong>Description:</strong> ${event.description}<br>
+                        <strong>Volunteers Needed:</strong> ${event.volunteers_needed}<br>
+                        <strong>Hours Rewarded:</strong> ${event.hours_rewarded}<br>
+                        <strong>Category:</strong> ${event.category}
+                    `;
+                    tooltip.style.position = "absolute";
+                    tooltip.style.background = "#fff";
+                    tooltip.style.border = "1px solid #ccc";
+                    tooltip.style.borderRadius = "5px";
+                    tooltip.style.padding = "10px";
+                    tooltip.style.boxShadow = "0 2px 5px rgba(0,0,0,0.2)";
+                    tooltip.style.zIndex = 1000;
+        
+                    document.body.appendChild(tooltip);
+        
+                    const rect = e.target.getBoundingClientRect();
+                    tooltip.style.left = `${rect.right + 10}px`;
+                    tooltip.style.top = `${rect.top}px`;
+        
+                    element.dataset.tooltip = tooltip;
+                });
+        
+                element.addEventListener("mouseleave", () => {
+                    const tooltip = document.querySelector(".event-tooltip");
+                    if (tooltip) tooltip.remove();
+                });
+            }
         });
-    });
-
-    // Helper function to add hover functionality to event elements
-    function addHoverListener(element, event) {
-        element.addEventListener("mouseenter", (e) => {
-            const tooltip = document.createElement("div");
-            tooltip.classList.add("event-tooltip");
-            tooltip.innerHTML = `
-                <strong>${event.name}</strong><br>
-                <strong>Date:</strong> ${event.date}<br>
-                <strong>Start Time:</strong> ${event.start_time}<br>
-                <strong>End Time:</strong> ${event.end_time}<br>
-                <strong>Description:</strong> ${event.description}<br>
-                <strong>Volunteers Needed:</strong> ${event.volunteers_needed}<br>
-                <strong>Hours Rewarded:</strong> ${event.hours_rewarded}<br>
-                <strong>Category:</strong> ${event.category}
-            `;
-            tooltip.style.position = "absolute";
-            tooltip.style.background = "#fff";
-            tooltip.style.border = "1px solid #ccc";
-            tooltip.style.borderRadius = "5px";
-            tooltip.style.padding = "10px";
-            tooltip.style.boxShadow = "0 2px 5px rgba(0,0,0,0.2)";
-            tooltip.style.zIndex = 1000;
-
-            document.body.appendChild(tooltip);
-
-            const rect = e.target.getBoundingClientRect();
-            tooltip.style.left = `${rect.right + 10}px`;
-            tooltip.style.top = `${rect.top}px`;
-
-            element.dataset.tooltip = tooltip;
-        });
-
-        element.addEventListener("mouseleave", () => {
-            const tooltip = document.querySelector(".event-tooltip");
-            if (tooltip) tooltip.remove();
-        });
-    }
-});
-
 
 </script>
 
