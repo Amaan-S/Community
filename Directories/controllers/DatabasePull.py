@@ -2,7 +2,7 @@ import os
 import json
 import mysql.connector
 from dotenv import load_dotenv
-from user import User, Volunteer, Organizer, Events
+from Directories.controllers.user import User, Volunteer, Organizer, Events
 from decimal import Decimal
 
 load_dotenv()
