@@ -216,11 +216,9 @@
     <header>
         {% if logged_in_user %}
             {% if logged_in_user.userType == 0 %}
-                <a href="volunteerhomepage?username={{ logged_in_user.username }}" class="user-search">🏠 Homepage</a>
+                <a href="/volunteer_home?username={{ logged_in_user.username }}" class="user-search">🏠 Homepage</a>
             {% elif logged_in_user.userType == 1 %}
-                <a href="OrganizerHome?username={{ logged_in_user.username }}" class="user-search">🏠 Homepage</a>
-            {% else %}
-                <a href="/direction.html" class="user-search">🏠 Homepage</a> <!-- Fallback for unknown userType -->
+                <a href="/organizer_home?username={{ logged_in_user.username }}" class="user-search">🏠 Homepage</a>
             {% endif %}
         {% else %}
             <a href="/direction.html" class="user-search">🏠 Homepage</a> <!-- Fallback for unauthenticated users -->
