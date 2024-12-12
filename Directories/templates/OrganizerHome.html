@@ -316,6 +316,8 @@
         color: black;
         text-align: center;
         border: 1px solid black;
+        position: absolute;
+        margin-top: -1px;
         }
         .event-tooltip {
             font-size: 12px;
@@ -390,12 +392,12 @@
 <body>
     <header>
         <div class="header-left">
-            <a href="/usersearch" class="user-search">🔍 User Search</a>
+            <a href="usersearch.html" class="user-search">🔍 User Search</a>
         </div>
         <div class="header-center">CommUnity: Organizer Homepage</div>
         <div class="header-right">
             <a href="eventsearch.html" class="event-search">🔍 Event Search</a>
-            <a href="index.html" class="logout-box">Logout</a>
+            <a href="signup.html" class="logout-box">Logout</a>
         </div>
     </header>
     
@@ -523,102 +525,209 @@
     </div>
 
 
-     <!-- Javascript code for the functionality of the calendar -->
-     <script>
-        //start of Javascript code
-    function Gen_myCalendar(){
-        // Get today's date (uses JavaScript date objects)
-        const today = new Date();
-
-
-        //Month Names
-        const monthNames = ["January", "February", "March",
-                            "April", "May", "June",
-                            "July", "August", "September",
-                            "October", "November", "December"];
-
-
-        // Get the current month and year and allow them to be changeable
-        let currentMonth = today.getMonth();
-        let currentYear = today.getFullYear();
-
-
-        function CalendarGen(month,year){
-            // Get the number of days in the current month and year
-            var daysInMonth = new Date(year, month + 1, 0).getDate();
-
-
-            // Get the day of the week for the first day of the month
-            var firstDay = (new Date(year, month, 1)).getDay();
-
-
-            // Set the calendar title to the current month and year
-            document.querySelector('.calendar-title-text').textContent = `${monthNames[month]} ${year}`;
-           
-            // Clear previous calendar content to avoid accidentally appending the data
-            const calendarTable = document.getElementById('calendar-table');
-            calendarTable.innerHTML = '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>';
-           
-            // Create the calendar table
-            let date = 1;
-                for (let i = 0; i < 6; i++) { // 6 rows (max needed for a month view)
+    <script>
+        // Global data structure to store events
+        let events = [];
+        let selectedEvent = null; // Tracks the currently selected event for editing
+    
+        function Gen_myCalendar() {
+            const today = new Date();
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            let currentMonth = today.getMonth();
+            let currentYear = today.getFullYear();
+    
+            function CalendarGen(month, year) {
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const firstDay = new Date(year, month, 1).getDay();
+                document.querySelector('.calendar-title-text').textContent = `${monthNames[month]} ${year}`;
+    
+                const calendarTable = document.getElementById('calendar-table');
+                calendarTable.innerHTML = '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>';
+    
+                let date = 1;
+                for (let i = 0; i < 6; i++) {
                     let row = document.createElement('tr');
-
-
-                    // Create 7 columns (days of the week)
                     for (let j = 0; j < 7; j++) {
                         let cell = document.createElement('td');
+                        cell.classList.add('empty-cell');
                         if (i === 0 && j < firstDay) {
-                            // Empty cells before the first day of the month
-                            cell.innerHTML = "";                  
-                            cell.classList.add('empty-cell');       //Add an empty cell to the calendar
-                        } else if (date > daysInMonth) {
-                            // Empty cells after the last day of the month
                             cell.innerHTML = "";
-                            cell.classList.add('empty-cell');       //Add an empty cell to the calendar
+                        } else if (date > daysInMonth) {
+                            cell.innerHTML = "";
                         } else {
-                            // Fill with dates
                             cell.innerHTML = date;
+                            cell.classList.remove('empty-cell');
+    
+                            const cellDate = new Date(year, month, date).toISOString().split("T")[0];
+                            const matchingEvents = events.filter(event => event.date === cellDate);
+    
+                            matchingEvents.forEach(event => {
+                                const eventSquare = document.createElement("div");
+                                eventSquare.textContent = event.name;
+                                eventSquare.classList.add("calendar-event-box");
+                                eventSquare.setAttribute("data-event-id", event.id);
+                                eventSquare.addEventListener("click", () => populateEventManager(event));
+                                addHoverListener(eventSquare, event);
+                                cell.appendChild(eventSquare);
+                            });
+    
                             date++;
                         }
                         row.appendChild(cell);
                     }
-
-
-                    // Append the row to the calendar table
-                    document.getElementById('calendar-table').appendChild(row);
+                    calendarTable.appendChild(row);
                 }
+            }
+    
+            function addHoverListener(element, event) {
+                element.addEventListener("mouseenter", (e) => {
+                    const tooltip = document.createElement("div");
+                    tooltip.classList.add("event-tooltip");
+                    tooltip.innerHTML = `
+                        <strong>${event.name}</strong><br>
+                        <strong>Date:</strong> ${event.date}<br>
+                        <strong>Start Time:</strong> ${formatTime(event.startTime)}<br>
+                        <strong>End Time:</strong> ${formatTime(event.endTime)}<br>
+                        <strong>Description:</strong> ${event.description}<br>
+                        <strong>Volunteers Needed:</strong> ${event.volunteersNeeded}<br>
+                        <strong>Hours Rewarded:</strong> ${event.hoursRewarded}<br>
+                        <strong>Category:</strong> ${event.category}
+                    `;
+                    tooltip.style.position = "absolute";
+                    tooltip.style.background = "#fff";
+                    tooltip.style.border = "1px solid #ccc";
+                    tooltip.style.borderRadius = "5px";
+                    tooltip.style.padding = "10px";
+                    tooltip.style.boxShadow = "0 2px 5px rgba(0,0,0,0.2)";
+                    tooltip.style.zIndex = 1000;
+    
+                    document.body.appendChild(tooltip);
+    
+                    const rect = e.target.getBoundingClientRect();
+                    tooltip.style.left = `${rect.right + 10}px`;
+                    tooltip.style.top = `${rect.top}px`;
+    
+                    element.dataset.tooltip = tooltip;
+                });
+    
+                element.addEventListener("mouseleave", () => {
+                    const tooltip = document.querySelector(".event-tooltip");
+                    if (tooltip) tooltip.remove();
+                });
+            }
+    
+            function formatTime(time) {
+                const date = new Date(time);
+                const hours = date.getHours();
+                const minutes = date.getMinutes();
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                const formattedHours = hours % 12 || 12;
+                const formattedMinutes = minutes.toString().padStart(2, '0');
+                return `${formattedHours}:${formattedMinutes} ${ampm}`;
+            }
+    
+            function populateEventManager(event) {
+                document.getElementById("event-name").value = event.name;
+                document.getElementById("start-time").value = event.startTime;
+                document.getElementById("end-time").value = event.endTime;
+                document.getElementById("event-description").value = event.description;
+                document.getElementById("volunteers-needed").value = event.volunteersNeeded;
+                document.getElementById("hours-rewarded").value = event.hoursRewarded;
+                document.getElementById("category").value = event.category;
+    
+                selectedEvent = event; // Mark this event as selected for editing
+            }
+    
+            CalendarGen(currentMonth, currentYear);
+    
+            document.getElementById('LookBack').addEventListener('click', () => {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                CalendarGen(currentMonth, currentYear);
+            });
+    
+            document.getElementById('LookAhead').addEventListener('click', () => {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                CalendarGen(currentMonth, currentYear);
+            });
         }
-
-
-        CalendarGen(currentMonth,currentYear);              //initial generation of calendar that is the current month and year
-   
-        document.getElementById('LookBack').addEventListener('click', () => {   //upon clicking LookBack button
-            currentMonth--;     //decrease the month
-            if(currentMonth < 0){           //check to make sure that decreasing the month is nonnegative
-                currentMonth = 11;  //if negative, set the month to december
-                currentYear--;          //decease the year
-            }
-            CalendarGen(currentMonth, currentYear);         //regenerate the updated calendar
+    
+        document.addEventListener("DOMContentLoaded", () => {
+            const createEventButton = document.getElementById("create-event-button");
+            const editEventButton = document.getElementById("edit-event-button");
+    
+            createEventButton.addEventListener("click", () => {
+                const eventName = document.getElementById("event-name").value.trim();
+                const startTime = document.getElementById("start-time").value.trim();
+                const endTime = document.getElementById("end-time").value.trim();
+                const description = document.getElementById("event-description").value.trim();
+                const volunteersNeeded = document.getElementById("volunteers-needed").value.trim();
+                const hoursRewarded = document.getElementById("hours-rewarded").value.trim();
+                const category = document.getElementById("category").value;
+    
+                if (!eventName || !startTime || !endTime || !description || !volunteersNeeded || !hoursRewarded || !category) {
+                    alert("Please fill out all required fields.");
+                    return;
+                }
+    
+                const eventDate = new Date(startTime).toISOString().split("T")[0];
+                const eventId = `${eventName}-${eventDate}`;
+    
+                const existingEvent = events.find(event => event.id === eventId);
+    
+                if (existingEvent) {
+                    alert("This event already exists.");
+                    return;
+                }
+    
+                events.push({
+                    id: eventId,
+                    name: eventName,
+                    date: eventDate,
+                    startTime: startTime,
+                    endTime: endTime,
+                    description: description,
+                    volunteersNeeded: volunteersNeeded,
+                    hoursRewarded: hoursRewarded,
+                    category: category
+                });
+    
+                alert(`Event "${eventName}" created.`);
+                Gen_myCalendar();
+            });
+    
+            editEventButton.addEventListener("click", () => {
+                if (!selectedEvent) {
+                    alert("No event selected for editing.");
+                    return;
+                }
+    
+                selectedEvent.name = document.getElementById("event-name").value.trim();
+                selectedEvent.startTime = document.getElementById("start-time").value.trim();
+                selectedEvent.endTime = document.getElementById("end-time").value.trim();
+                selectedEvent.description = document.getElementById("event-description").value.trim();
+                selectedEvent.volunteersNeeded = document.getElementById("volunteers-needed").value.trim();
+                selectedEvent.hoursRewarded = document.getElementById("hours-rewarded").value.trim();
+                selectedEvent.category = document.getElementById("category").value;
+    
+                alert(`Event "${selectedEvent.name}" updated.`);
+                selectedEvent = null; // Clear the selection
+                Gen_myCalendar();
+            });
         });
-
-
-        document.getElementById('LookAhead').addEventListener('click', () => {         //upon clicking nextMonth button
-            currentMonth++;      //increase the month
-            if(currentMonth > 11){           //check to make sure that increasing the month does not exceed 11
-                currentMonth = 0;  //if it does, set the month to January
-                currentYear++;          //increase the year
-            }
-            CalendarGen(currentMonth, currentYear);         //regenerate the updated calendar
-        });
-    }
-
-
-    // Call the function to generate the calendar when the page loads
-    window.onload = Gen_myCalendar;
-       
+    
+        window.onload = Gen_myCalendar;
     </script>
-
+    
+    
+    
 
 <script>
     /*eventlistener for the silly goopy create event and edit event and show applicants section*/
@@ -630,104 +739,6 @@
 
     volunteerSection.style.display = "none";
 
-    createEventButton.addEventListener("click", () => {
-        const eventName = document.getElementById("event-name").value.trim();
-        const startTime = document.getElementById("start-time").value.trim();
-        const endTime = document.getElementById("end-time").value.trim();
-        const description = document.getElementById("event-description").value.trim();
-        const volunteersNeeded = document.getElementById("volunteers-needed").value.trim();
-        const hoursRewarded = document.getElementById("hours-rewarded").value.trim();
-        const category = document.getElementById("category").value;
-
-        if (!eventName || !startTime || !endTime || !description || !volunteersNeeded || !hoursRewarded || !category) {
-            alert("Please fill out all required fields.");
-            return;
-        }
-
-        const startDate = new Date(startTime);
-        const eventDay = startDate.getDate();
-        const eventMonth = startDate.getMonth();
-        const eventYear = startDate.getFullYear();
-
-        const displayedMonth = document.querySelector(".calendar-title-text").textContent.split(" ")[0];
-        const displayedYear = parseInt(document.querySelector(".calendar-title-text").textContent.split(" ")[1]);
-
-        const displayedMonthIndex = new Date(Date.parse(displayedMonth + " 1, " + displayedYear)).getMonth();
-
-        if (eventMonth !== displayedMonthIndex || eventYear !== displayedYear) {
-            alert("Event date does not match the currently displayed calendar month/year. Please navigate to the correct month.");
-            return;
-        }
-
-        const calendarCells = document.querySelectorAll("#calendar-table td");
-        calendarCells.forEach((cell) => {
-            if (parseInt(cell.textContent) === eventDay) {
-                const eventSquare = document.createElement("div");
-                eventSquare.textContent = eventName;
-                eventSquare.classList.add("calendar-event-box");
-
-                eventSquare.dataset.name = eventName;
-                eventSquare.dataset.startTime = startTime;
-                eventSquare.dataset.endTime = endTime;
-                eventSquare.dataset.description = description;
-                eventSquare.dataset.volunteersNeeded = volunteersNeeded;
-                eventSquare.dataset.hoursRewarded = hoursRewarded;
-                eventSquare.dataset.category = category;
-
-                eventSquare.addEventListener("mouseenter", (e) => {
-                    const tooltip = document.createElement("div");
-                    tooltip.classList.add("event-tooltip");
-                    tooltip.innerHTML = `
-                        <strong>${eventSquare.dataset.name}</strong><br>
-                        Volunteers Needed: ${eventSquare.dataset.volunteersNeeded}<br>
-                        Start Time: ${formatTime(eventSquare.dataset.startTime)}<br>
-                        End Time: ${formatTime(eventSquare.dataset.endTime)}<br>
-                        Hours Rewarded: ${eventSquare.dataset.hoursRewarded}<br>
-                        Category: ${eventSquare.dataset.category}<br>
-                        Description: ${eventSquare.dataset.description}
-                    `;
-                    tooltip.style.position = "absolute";
-                    tooltip.style.background = "#fff";
-                    tooltip.style.border = "1px solid #ccc";
-                    tooltip.style.borderRadius = "5px";
-                    tooltip.style.padding = "10px";
-                    tooltip.style.boxShadow = "0 2px 5px rgba(0,0,0,0.2)";
-                    tooltip.style.zIndex = 1000;
-
-                    document.body.appendChild(tooltip);
-
-                    const rect = e.target.getBoundingClientRect();
-                    tooltip.style.left = `${rect.right + 10}px`;
-                    tooltip.style.top = `${rect.top}px`;
-
-                    eventSquare.dataset.tooltip = tooltip;
-                });
-
-                eventSquare.addEventListener("mouseleave", () => {
-                    const tooltip = document.querySelector(".event-tooltip");
-                    if (tooltip) tooltip.remove();
-                });
-
-                eventSquare.addEventListener("click", () => {
-                    document.getElementById("event-name").value = eventSquare.dataset.name;
-                    document.getElementById("start-time").value = eventSquare.dataset.startTime;
-                    document.getElementById("end-time").value = eventSquare.dataset.endTime;
-                    document.getElementById("event-description").value = eventSquare.dataset.description;
-                    document.getElementById("volunteers-needed").value = eventSquare.dataset.volunteersNeeded;
-                    document.getElementById("hours-rewarded").value = eventSquare.dataset.hoursRewarded;
-                    document.getElementById("category").value = eventSquare.dataset.category;
-
-                    selectedEventBox = eventSquare;
-
-                    volunteerSection.style.display = "block";
-                });
-
-                cell.appendChild(eventSquare);
-            }
-        });
-
-        clearEventInputs();
-    });
 
     editEventButton.addEventListener("click", () => {
         if (!selectedEventBox) {
