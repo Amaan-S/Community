@@ -1,50 +1,48 @@
-{
-  "events": [
+[
     {
-      "eventID": "123456",
-      "name": "Community Cleanup",
-      "date": "12-20-2024",
-      "start_time": "09:00 AM",
-      "end_time": "12:00 PM",
-      "address": "123 Main Street, Springfield, USA",
-      "category": "Community Service",
-      "vAmount": 25,
-      "hoursReward": 3,
-      "description": "Join us in cleaning up our local park. Supplies will be provided.",
-      "orgName": "Springfield Green Initiative",
-      "eventApplicants": [
-        "alice_johnson25",
-        "bob_smith30",
-        "charlie_lee22"
-      ],
-      "eventVolunteers": [
-        "alice_johnson25",
-        "dana_wilson28"
-      ],
-      "attendenceAccounted": false,
-      "hoursDeadline": "12-27-2024"
+        "eventID": "123456",
+        "name": "Community Cleanup",
+        "date": "12-20-2024",
+        "start_time": "09:00 AM",
+        "end_time": "12:00 PM",
+        "address": "123 Main Street, Springfield, USA",
+        "category": "Community Service",
+        "vAmount": 25,
+        "hoursReward": 3,
+        "description": "Join us in cleaning up our local park. Supplies will be provided.",
+        "orgName": "Springfield Green Initiative",
+        "eventApplicants": [
+            "alice_johnson25",
+            "bob_smith30",
+            "charlie_lee22"
+        ],
+        "eventVolunteers": [
+            "alice_johnson25",
+            "dana_wilson28"
+        ],
+        "attendenceAccounted": false,
+        "hoursDeadline": "12-27-2024"
     },
     {
-      "eventID": "654321",
-      "name": "Animal Shelter Fundraiser",
-      "date": "12-22-2024",
-      "start_time": "10:00 AM",
-      "end_time": "02:00 PM",
-      "address": "789 Shelter Lane, Springfield, USA",
-      "category": "Animal Welfare",
-      "vAmount": 15,
-      "hoursReward": 4,
-      "description": "Help us raise funds for our local animal shelter by organizing and assisting during our fundraiser event.",
-      "orgName": "Springfield Animal Care",
-      "eventApplicants": [
-        "mike_brown33",
-        "sarah_jones27"
-      ],
-      "eventVolunteers": [
-        "sarah_jones27"
-      ],
-      "attendenceAccounted": false,
-      "hoursDeadline": "12-29-2024"
+        "eventID": "654321",
+        "name": "Animal Shelter Fundraiser",
+        "date": "12-22-2024",
+        "start_time": "10:00 AM",
+        "end_time": "02:00 PM",
+        "address": "789 Shelter Lane, Springfield, USA",
+        "category": "Animal Welfare",
+        "vAmount": 15,
+        "hoursReward": 4,
+        "description": "Help us raise funds for our local animal shelter by organizing and assisting during our fundraiser event.",
+        "orgName": "Springfield Animal Care",
+        "eventApplicants": [
+            "mike_brown33",
+            "sarah_jones27"
+        ],
+        "eventVolunteers": [
+            "sarah_jones27"
+        ],
+        "attendenceAccounted": false,
+        "hoursDeadline": "12-29-2024"
     }
-  ]
-}
+]
