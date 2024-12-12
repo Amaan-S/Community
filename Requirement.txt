@@ -2,4 +2,5 @@ flask
 flask-session
 flask-cors
 python-dotenv
+mysql-connector-python
 gunicorn
