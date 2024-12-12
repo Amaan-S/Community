@@ -168,23 +168,23 @@ def user_search():
     # Render usersearch.html with logged-in user data
     return render_template('usersearch.html', logged_in_user=logged_in_user)
 
-@app.route('/eventsearch', methods=['GET', 'POST'])
-def event_search():
-    logged_in_user = None
-    if 'username' in session:
+#@app.route('/eventsearch', methods=['GET', 'POST'])
+#def event_search():
+ #   logged_in_user = None
+  #  if 'username' in session:
         # Load users from JSON
-        try:
-            with open(file_path, 'r') as file:
-                users = json.load(file)
-        except (FileNotFoundError, json.JSONDecodeError):
-            users = []
+   #     try:
+    #        with open(file_path, 'r') as file:
+     #           users = json.load(file)
+      #  except (FileNotFoundError, json.JSONDecodeError):
+       #     users = []
 
         # Find the logged-in user
-        logged_in_user = next((u for u in users if u.get('username') == session['username']), None)
+#        logged_in_user = next((u for u in users if u.get('username') == session['username']), None)
 
     # Render eventsearch.html with logged-in user data
-    return render_template('eventsearch.html', logged_in_user=logged_in_user)
-    
+ #   return render_template('eventsearch.html', logged_in_user=logged_in_user)
+ #  */ 
 @app.route('/eventsearch.html')
 def event_search():
     return render_template('eventsearch.html')  #redirection to eventsearch.html in templates folder
