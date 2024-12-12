@@ -1,6 +1,6 @@
 import json
 from flask import Flask, render_template, request, redirect, session, jsonify
-from Directories.controllers.user import Events, Organizer
+from Directories.controllers.user import User, Volunteer, Organizer, Events
 from Directories.controllers.DatabasePush import update_database_from_json
 from Directories.controllers.PopulateData_json import fetch_all_data, update_json_file
 import os
