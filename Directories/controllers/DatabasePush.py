@@ -2,7 +2,7 @@ import os
 import json
 from dotenv import load_dotenv
 import mysql.connector
-from user import User, Volunteer, Organizer, Events
+from Directories.controllers.user import User, Volunteer, Organizer, Events
 
 load_dotenv()
 
