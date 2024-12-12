@@ -365,112 +365,77 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const userItems = document.querySelectorAll(".user-item");
-            const clickedProfile = document.querySelector(".box-container:nth-child(2) .box");
-            const searchInput = document.querySelector(".user-search-input");
-            const resultsTitle = document.querySelector(".calendar-title"); // Select the "Results for: --" element
-    
-            const userData = {
-                "John Doe": {
-                    memberSince: "10.6.24",
-                    username: "@johndoe13",
-                    totalHours: "6",
-                    opportunitiesWorked: "3",
-                    history: "Grapefest, Church, State Fair"
-                },
-                "Jane Smith": {
-                    memberSince: "11.8.24",
-                    username: "@janesmith24",
-                    totalHours: "12",
-                    opportunitiesWorked: "8",
-                    history: "Animal Shelter, Library, Community Center, Soup Kitchen..."
-                },
-                "Ethan Carter": {
-                    memberSince: "10.9.24",
-                    username: "@ethancarter16",
-                    totalHours: "32",
-                    opportunitiesWorked: "16",
-                    history: "Animal Shelter, Soup Kitchen, Community Center, UNT Graduation..."
-                },
-                "Sophia Bennett": {
-                    memberSince: "12.6.24",
-                    username: "@sophiabennett19",
-                    totalHours: "4",
-                    opportunitiesWorked: "1",
-                    history: "Animal Shelter"
-                },
-                "Liam Mitchell": {
-                    memberSince: "10.15.24",
-                    username: "@liammitchell12",
-                    totalHours: "4",
-                    opportunitiesWorked: "2",
-                    history: "Library, Soup Kitchen"
-                },
-                "Olivia Harris": {
-                    memberSince: "11.6.24",
-                    username: "@oliviharris123",
-                    totalHours: "7",
-                    opportunitiesWorked: "3",
-                    history: "Soup Kitchen, Church, Community Center"
-                },
-                "Noah Anderson": {
-                    memberSince: "11.24.24",
-                    username: "@noahanderson983",
-                    totalHours: "12",
-                    opportunitiesWorked: "5",
-                    history: "Animal Shelter, Library, Community Center, Church..."
-                },
-                "Emma Brooks": {
-                    memberSince: "12.2.24",
-                    username: "@emmabrooks674",
-                    totalHours: "3",
-                    opportunitiesWorked: "1",
-                    history: "Library"
-                },
-                "James Turner": {
-                    memberSince: "11.4.24",
-                    username: "@jamesturner87",
-                    totalHours: "7",
-                    opportunitiesWorked: "3",
-                    history: "Soup Kitchen, Church, Community Center"
+            <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const userList = document.querySelector(".user-list");
+                const clickedProfile = document.querySelector(".box-container:nth-child(2) .box");
+                const searchInput = document.querySelector(".user-search-input");
+                const resultsTitle = document.querySelector(".calendar-title");
+        
+                let allUsers = []; // Store fetched user data
+        
+                // Fetch users from the backend
+                fetch('/users')
+                    .then((response) => response.json())
+                    .then((users) => {
+                        allUsers = users; // Save users for search functionality
+                        renderUsers(users); // Render all users
+                    });
+        
+                // Render users in the user list
+                function renderUsers(users) {
+                    userList.innerHTML = ""; // Clear existing users
+                    users.forEach((user) => {
+                        const userItem = document.createElement("div");
+                        userItem.classList.add("user-item");
+                        userItem.innerHTML = `
+                            <div class="user-circle"></div>
+                            <div class="user-details">
+                                <div class="name">${user.firstName || user.orgName || "N/A"} ${user.lastName || ""}</div>
+                                <div class="username">@${user.username}</div>
+                                <div class="role">${user.userType === 0 ? "Volunteer" : "Organizer"}</div>
+                            </div>
+                        `;
+                        userItem.addEventListener("click", () => displayUserDetails(user));
+                        userList.appendChild(userItem);
+                    });
                 }
-            };
-    
-            userItems.forEach((item) => {
-                item.addEventListener("click", () => {
-                    const userName = item.querySelector(".name").textContent;
-    
-                    if (userData[userName]) {
-                        const userInfo = userData[userName];
-    
-                        clickedProfile.querySelector(".date").textContent = `Member Since: ${userInfo.memberSince}`;
-                        clickedProfile.querySelector(".profile-info .name").textContent = userName;
-                        clickedProfile.querySelector(".profile-info .username").textContent = userInfo.username;
-                        clickedProfile.querySelector(".stats-item:nth-child(1)").innerHTML = `<strong>Total Hours:</strong> ${userInfo.totalHours}`;
-                        clickedProfile.querySelector(".stats-item:nth-child(2)").innerHTML = `<strong>Opportunities Worked:</strong> ${userInfo.opportunitiesWorked}`;
-                        clickedProfile.querySelector(".stats-item:nth-child(3)").innerHTML = `<strong>History:</strong> ${userInfo.history}`;
+        
+                // Display clicked user details in the profile section
+                function displayUserDetails(user) {
+                    clickedProfile.querySelector(".date").textContent = `Member Since: ${user.joinDate}`;
+                    clickedProfile.querySelector(".profile-info .name").textContent =
+                        `${user.firstName || user.orgName || "N/A"} ${user.lastName || ""}`;
+                    clickedProfile.querySelector(".profile-info .username").textContent = `@${user.username}`;
+                    if (user.userType === 0) {
+                        // Volunteer details
+                        clickedProfile.querySelector(".stats-item:nth-child(1)").innerHTML = `<strong>Total Hours:</strong> ${user.hours || "--"}`;
+                        clickedProfile.querySelector(".stats-item:nth-child(2)").innerHTML = `<strong>Opportunities Worked:</strong> ${user.history?.length || "--"}`;
+                        clickedProfile.querySelector(".stats-item:nth-child(3)").innerHTML = `<strong>History:</strong> ${user.history?.join(", ") || "--"}`;
+                    } else {
+                        // Organizer details
+                        const address = user.address || {};
+                        clickedProfile.querySelector(".stats-item:nth-child(1)").innerHTML = `<strong>Address:</strong> ${address.street || "--"}`;
+                        clickedProfile.querySelector(".stats-item:nth-child(2)").innerHTML = `${address.city || ""}, ${address.state || ""} ${address.zipCode || ""}`;
+                        clickedProfile.querySelector(".stats-item:nth-child(3)").innerHTML = "";
+                    }
+                }
+        
+                // Search functionality
+                searchInput.addEventListener("keydown", (e) => {
+                    if (e.key === "Enter") {
+                        e.preventDefault();
+                        const searchQuery = searchInput.value.trim().toLowerCase();
+                        resultsTitle.textContent = `Results for: ${searchQuery || "--"}`;
+                        const filteredUsers = allUsers.filter((user) => {
+                            const fullName = `${user.firstName || user.orgName || ""} ${user.lastName || ""}`.toLowerCase();
+                            return fullName.includes(searchQuery);
+                        });
+                        renderUsers(filteredUsers);
                     }
                 });
             });
-    
-            searchInput.addEventListener("keydown", (e) => {
-                if (e.key === "Enter") {
-                    e.preventDefault();
-                    const searchQuery = searchInput.value.trim();
-    
-                    // Update the "Results for: --" text
-                    resultsTitle.textContent = `Results for: ${searchQuery || "--"}`;
-    
-                    userItems.forEach((item) => {
-                        const name = item.querySelector(".name").textContent.toLowerCase();
-                        item.style.display = name.includes(searchQuery.toLowerCase()) ? "flex" : "none";
-                    });
-                }
-            });
-        });
-    </script>
+        </script>
     
 </body>
 </html>
