@@ -172,18 +172,6 @@ def user_search():
     # Render usersearch.html with logged-in user data
     return render_template('usersearch.html', logged_in_user=logged_in_user)
 
-@app.route("/api/events", methods=["GET"])
-def get_events():
-    # Path to the all_events.json file
-    file_path = os.path.join(os.getcwd(), "all_events.json")
-    
-    try:
-        with open(file_path, "r") as file:
-            events = json.load(file)
-        return jsonify(events)
-    except FileNotFoundError:
-        return jsonify({"error": "Events file not found"}), 404
-
 
 @app.route('/eventsearch', methods=['GET', 'POST'])
 def event_search():
