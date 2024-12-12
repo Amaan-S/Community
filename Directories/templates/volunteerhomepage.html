@@ -477,24 +477,28 @@
 
     // Fetch events from JSON file
     async function fetchEvents() {
-        try {
-            const response = await fetch('/api/events.json'); // Path to your JSON file
-            const data = await response.json();
-            events = data.map(event => ({
-                name: event.name,
-                date: new Date(event.date), // Convert the date string to a Date object
-                start_time: event.start_time,
-                end_time: event.end_time,
-                address: event.address,
-                description: event.description,
-                eventVolunteers: event.eventVolunteers,
-                hoursReward: event.hoursReward,
-                category: event.category
-            }));
-        } catch (error) {
-            console.error("Error fetching events:", error);
+    try {
+        const response = await fetch('/api/events'); // Use the Flask API route
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const data = await response.json();
+        events = data.map(event => ({
+            name: event.name,
+            date: new Date(event.date), // Convert the date string to a Date object
+            start_time: event.start_time,
+            end_time: event.end_time,
+            address: event.address,
+            description: event.description,
+            eventVolunteers: event.eventVolunteers,
+            hoursReward: event.hoursReward,
+            category: event.category
+        }));
+    } catch (error) {
+        console.error("Error fetching events:", error);
     }
+}
+
 
     function CalendarGen(month, year) {
         const daysInMonth = new Date(year, month + 1, 0).getDate();
