@@ -9,7 +9,7 @@
         "orgName": "Jihad Company",
         "events": [],
         "address": {
-            "street": "300 Laurel Lane",
+            "street": "159 test lane",
             "city": "Euless",
             "state": "TX",
             "zipCode": "76039"
@@ -25,7 +25,7 @@
         "orgName": "Jihad Company2",
         "events": [],
         "address": {
-            "street": "300 Laurel Lane",
+            "street": "650 testing rd",
             "city": "Euless",
             "state": "TX",
             "zipCode": "76039"
